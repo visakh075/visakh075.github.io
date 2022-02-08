@@ -52,8 +52,6 @@ class world
       tCells.push(ccol);
       ccol=[];
     }
-    //let tCells=this.cells.clone();
-    //console.log(tCells);
     for(var r=0;r<this.rows;r++)
     {
       for(var c=0;c<this.cols;c++)
