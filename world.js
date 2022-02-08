@@ -29,7 +29,7 @@ class world
         if(this.cells[r][c]==1)
         {
 
-          stroke('#5294e2aa');
+          stroke('#5294e2');
           fill('#5294e2')
           rect((scl*c)+clr,(scl*r)+clr,scl-2*clr,scl-2*clr);
           noFill();

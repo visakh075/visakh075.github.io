@@ -8,13 +8,14 @@ var game_of_life=new world(wWidth,wHeight,wScale);
 function setup() {
   // put setup code here
   frameRate(15);
+  windowResized();
   var cnv=createCanvas(800,400);
   cnv.parent('gol');
   //cnv.center();
 }
 
 function draw() {
-  background('#383c4aff');
+  background('#383c4a');
 
 
   if(run===true)
