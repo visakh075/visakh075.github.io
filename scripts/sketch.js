@@ -1,7 +1,7 @@
 var run=true;
 var cellsize=10;
 var wWidth = document.getElementById('gol').offsetWidth;
-var wHeight=  document.getElementById('gol').offsetWidth;;
+var wHeight=  document.getElementById('gol').offsetHeight;
 //var wWidth=800;
 var wScale=5;
 var game_of_life=new world(wWidth,wHeight,wScale);
