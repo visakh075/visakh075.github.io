@@ -1,15 +1,16 @@
 var run=true;
 var cellsize=10;
-var wHeight=400;
-var wWidth=800;
-var wScale=8;
+var wWidth = document.getElementById('gol').offsetWidth;
+var wHeight=  document.getElementById('gol').offsetWidth;;
+//var wWidth=800;
+var wScale=5;
 var game_of_life=new world(wWidth,wHeight,wScale);
 
 function setup() {
   // put setup code here
   frameRate(15);
   windowResized();
-  var cnv=createCanvas(800,400);
+  var cnv=createCanvas(wWidth,wHeight);
   cnv.parent('gol');
   //cnv.center();
 }
@@ -34,7 +35,7 @@ function mouseDragged()
   var c=Math.floor(mouseX/cellsize);
   var r=Math.floor(mouseY/cellsize);
   //var cell=[r,c];
-  if(game_of_life.cells[r][c]==1){game_of_life.cells[r][c]=0;}else{game_of_life.cells[r][c]=1;}
+  //if(game_of_life.cells[r][c]==1){game_of_life.cells[r][c]=0;}else{game_of_life.cells[r][c]=1;}
 
   }
   game_of_life.draw();
