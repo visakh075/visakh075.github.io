@@ -1,8 +1,6 @@
 var run=true;
-var cellsize=10;
 var wWidth = document.getElementById('gol').offsetWidth;
 var wHeight=  document.getElementById('gol').offsetHeight;
-//var wWidth=800;
 var wScale=5;
 var game_of_life=new world(wWidth,wHeight,wScale);
 
@@ -12,7 +10,6 @@ function setup() {
   windowResized();
   var cnv=createCanvas(wWidth,wHeight);
   cnv.parent('gol');
-  //cnv.center();
 }
 
 function draw() {
@@ -31,12 +28,9 @@ function mouseDragged()
   //console.log(mouseX,mouseY);
   if(mouseIsPressed===true)
   {
-    //console.log(mouseX,mouseY,mouseIsPressed);
-  var c=Math.floor(mouseX/cellsize);
-  var r=Math.floor(mouseY/cellsize);
-  //var cell=[r,c];
-  //if(game_of_life.cells[r][c]==1){game_of_life.cells[r][c]=0;}else{game_of_life.cells[r][c]=1;}
-
+  var c=Math.floor(mouseX/wScale);
+  var r=Math.floor(mouseY/wScale);
+  if(game_of_life.cells[r][c]==1){game_of_life.cells[r][c]=0;}else{game_of_life.cells[r][c]=1;}
   }
   game_of_life.draw();
 }

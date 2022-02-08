@@ -18,8 +18,9 @@ body {
 }
 .content
 {
+  color: white;
   padding: 8px;
-  background-color: #7c818c;
+  background-color: #4b5162;
 }
 .game_of_life_info
 {
