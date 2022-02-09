@@ -2,10 +2,19 @@ class bird
 {
   constructor()
   {
+    var purple = color(101, 81, 147);
+    var bluish = color(109, 128, 172);
+    var reddish = color(252, 71, 51);
+    var greenish = color(131, 153, 97);
+    var brown = color(181, 98, 69);
+
+    var colors = [purple, bluish, greenish, reddish, brown];
     //this.pos=p5.Vector.random2D().mult(400);
     this.perc_rad=50;
     this.scale=10;
     this.friends=[];
+    // this.color=color(Math.random(255),Math.random(255),Math.random(255));
+    this.color=random(colors);
     this.max_vel=4;
     this.max_acc=.2;
     this.pos=new p5.Vector(Math.random(),Math.random(0));
@@ -55,6 +64,7 @@ class bird
     
     //circle(this.pos.x,this.pos.y,10);
     noFill();
+
     var x=this.pos.x;
     var y=this.pos.y;
     var theta=this.vel.heading();
@@ -62,6 +72,7 @@ class bird
     var ct=this.scale*cos(theta)/3;
     
     stroke(255);
+    stroke(this.color);
     beginShape();
     vertex(x-st,y+ct);
     vertex(x+st,y-ct);
@@ -111,13 +122,12 @@ class bird
     {
       desired.add(this.friends[i][0].vel);
     }
-    
   if(this.friends.length>0)
   {
-  desired.div(this.friends.length);
-  desired.setMag(this.max_vel);
-  desired.sub(this.vel);
-  desired.limit(this.max_acc);
+    desired.div(this.friends.length);
+    desired.setMag(this.max_vel);
+    desired.sub(this.vel);
+    desired.limit(this.max_acc);
   }
   return(desired);
   }
@@ -131,12 +141,12 @@ class bird
     }
     if(this.friends.length>0)
     {
-  
-    desired.div(this.friends.length);
-    desired.sub(this.pos);
-    desired.setMag(this.max_vel);
-    desired.sub(this.vel);
-    desired.limit(this.max_acc);
+
+      desired.div(this.friends.length);
+      desired.sub(this.pos);
+      desired.setMag(this.max_vel);
+      desired.sub(this.vel);
+      desired.limit(this.max_acc);
     }
     return(desired);
   }
@@ -157,13 +167,16 @@ class world
   {
     for(var i=0;i<this.num;i++)
     {
-      this.birds[i].perception(this.birds);
-      this.birds[i].update();
       this.birds[i].draw();
     }
   }
   update()
   {
-          
+    for(var i=0;i<this.num;i++)
+    {
+      this.birds[i].perception(this.birds);
+      this.birds[i].update();
+    }
   }
+
 }
