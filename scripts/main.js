@@ -4,26 +4,20 @@ class bird
     
     constructor(_p5)
     {
-        // var purple = p5.color(101, 81, 147);
-        // var bluish = p5.color(109, 128, 172);
-        // var reddish = p5.color(252, 71, 51);
-        // var greenish = p5.color(131, 153, 97);
-        // var brown = p5.color(181, 9, 69);
-
-        // var colors = [purple, bluish, greenish, reddish, brown];
-        // //this.pos=p5.Vector.random2D().mult(400);
-        this.p5=_p5;
-        this.perc_rad=50;
-        this.scale=10;
-        this.friends=[];
-        // this.color=color(Math.random(255),Math.random(255),Math.random(255));
-        //this.color=random(colors);
-        this.max_vel=4;
-        this.max_acc=.2;
-        this.pos=new p5.Vector(Math.random(),Math.random(0));
-        this.pos.mult(500);
-        this.vel=p5.Vector.random2D().mult(5);
-        this.acc=new p5.Vector(0,0);
+      this.p5=_p5;  
+      this.pos=p5.Vector.random2D().mult(400);
+      
+      this.perc_rad=50;
+      this.scale=10;
+      this.friends=[];
+      // this.color=new p5.Color(Math.random(255),Math.random(255),Math.random(255));
+      // this.color=Math.random(colors);
+      this.max_vel=4;
+      this.max_acc=.2;
+      this.pos=new p5.Vector(Math.random(),Math.random(0));
+      this.pos.mult(500);
+      this.vel=p5.Vector.random2D().mult(5);
+      this.acc=new p5.Vector(0,0);
     }
     update()
     {
@@ -75,8 +69,8 @@ class bird
         var st=this.scale*Math.sin(theta)/3;
         var ct=this.scale*Math.cos(theta)/3;
         
-        this.p5.stroke(255);
-        //stroke(this.color);
+        this.p5.stroke("#5294e2");
+        //this.p5.stroke(this.color);
         this.p5.beginShape();
         this.p5.vertex(x-st,y+ct);
         this.p5.vertex(x+st,y-ct);
@@ -191,27 +185,41 @@ dens=100;
 var dens=Math.min(Math.floor(dH*dW/2000),200);
 const s = (sketch) => {
 
-    var run=true;
     var width=dW;
     var height=dH;
     
     sketch.setup = () => {
         sketch.p=sketch.createCanvas(dW, dH);
+        sketch.run=true;
         sketch.p.parent("gol");
         sketch.frameRate(30);
         sketch.pack=new world(sketch.width,sketch.height,dens,10,sketch);
     };
   
     sketch.draw = () =>  {
-        //background('#383c4a');
-        sketch.background(0);
-
-        if(run===true)
+        sketch.background('#383c4a');
+        
+        if(sketch.run===true)
         {
-            sketch.pack.update();
+          sketch.pack.update();
         }
         sketch.pack.draw();
-    };
+     };
+     sketch.windowResized = () =>
+     {
+        var dW=document.getElementById("gol").offsetWidth;
+        var dH=document.getElementById("gol").offsetHeight;
+        sketch.resizeCanvas(dW, dH);
+     };
+     sketch.keyPressed = () =>
+     {
+        console.log(sketch.keyCode);
+        if(sketch.keyCode===80)
+        {
+          sketch.run=!sketch.run;
+          console.log(sketch.run);
+        }
+     };
   };
   
 
