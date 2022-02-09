@@ -188,7 +188,7 @@ class world
 var dW=document.getElementById("gol").offsetWidth;
 var dH=document.getElementById("gol").offsetHeight;
 dens=100;
-var dens=Math.floor(dH*dW/2000);
+var dens=Math.min(Math.floor(dH*dW/2000),200);
 const s = (sketch) => {
 
     var run=true;
