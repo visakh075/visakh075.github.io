@@ -1,85 +1,169 @@
-class world
+class bird
 {
-  constructor(width,height,scale)
+  constructor()
   {
-    this.scale=scale;
-    this.cells=[];
-    this.rows=Math.floor(height/this.scale);
-    this.cols=Math.floor(width/this.scale);
-    for(var r=0;r<this.rows;r++)
+    //this.pos=p5.Vector.random2D().mult(400);
+    this.perc_rad=50;
+    this.scale=10;
+    this.friends=[];
+    this.max_vel=4;
+    this.max_acc=.2;
+    this.pos=new p5.Vector(Math.random(),Math.random(0));
+    this.pos.mult(500);
+    this.vel=p5.Vector.random2D().mult(5);
+    this.acc=new p5.Vector(0,0);
+  }
+  update()
+  {
+    var sep=this.separation().mult(1.5);
+    var ali=this.align().mult(1.5);
+    var coh=this.cohision().mult(1);
+    var total=p5.Vector.add(coh,ali);
+    total.add(sep);
+    this.acc.add(total);
+    this.acc.limit(this.max_acc);
+
+    this.vel.add(this.acc);
+    this.vel.setMag(this.max_vel);
+    
+    this.pos.add(this.vel);
+    
+    this.acc.mult(0);
+    
+    
+    
+    if(this.pos.x>width)
     {
-      let col=[];
-      for(var c=0;c<this.cols;c++)
-      {
-        //col.push(0);
-        col.push(Math.floor(Math.random()*2));
-      }
-      this.cells.push(col);
+      this.pos.x=0;
     }
-    console.log(this.cells);
+    if(this.pos.x<0)
+    {
+      this.pos.x=width;
+    }
+
+    if(this.pos.y>height)
+    {
+      this.pos.y=0;
+    }
+    if(this.pos.y<0)
+    {
+      this.pos.y=height;
+    }
   }
   draw()
   {
-    let clr=0;
-    let scl=this.scale;
-    for(var r=0;r<this.rows;r++)
+    
+    //circle(this.pos.x,this.pos.y,10);
+    noFill();
+    var x=this.pos.x;
+    var y=this.pos.y;
+    var theta=this.vel.heading();
+    var st=this.scale*sin(theta)/3;
+    var ct=this.scale*cos(theta)/3;
+    
+    stroke(255);
+    beginShape();
+    vertex(x-st,y+ct);
+    vertex(x+st,y-ct);
+    vertex(x+6*ct,y+6*st);
+    endShape(CLOSE);
+
+
+    //circle(this.pos.x,this.pos.y,this.perc_rad);
+  }
+  
+  perception(birds)
+  {
+    this.friends=[];
+    for(var i=0;i<birds.length;i++)
     {
-      for(var c=0;c<this.cols;c++)
+      var d=dist(this.pos.x,this.pos.y,birds[i].pos.x,birds[i].pos.y);
+      if(d<this.perc_rad && this!=birds[i])
       {
-        if(this.cells[r][c]==1)
-        {
-
-          stroke('#5294e2');
-          fill('#5294e2')
-          rect((scl*c)+clr,(scl*r)+clr,scl-2*clr,scl-2*clr);
-          noFill();
-          noStroke();
-        }
+        this.friends.push([birds[i],d]);
       }
+    }
+  }
+  separation()
+  {
+    var desired=createVector(0,0);
+    for(var i=0;i<this.friends.length;i++)
+    {
+      var des=p5.Vector.sub(this.pos,this.friends[i][0].pos);
+      
+      des.div(this.friends[i][1]);
+      des.setMag(this.max_vel);
+      desired.add(des);
+    }
+    if(this.friends.length>0)
+    {
+    desired.div(this.friends.length);
+    desired.setMag(this.max_vel);
+    desired.sub(this.vel);
+    desired.limit(this.max_acc);
+    }
+    return(desired);
+  }
+  align()
+  {
+    var desired=createVector(0,0);
+    for(var i=0;i<this.friends.length;i++)
+    {
+      desired.add(this.friends[i][0].vel);
+    }
+    
+  if(this.friends.length>0)
+  {
+  desired.div(this.friends.length);
+  desired.setMag(this.max_vel);
+  desired.sub(this.vel);
+  desired.limit(this.max_acc);
+  }
+  return(desired);
+  }
 
+  cohision()
+  {
+    var desired=createVector(0,0);
+    for(var i=0;i<this.friends.length;i++)
+    {
+      desired.add(this.friends[i][0].pos);
+    }
+    if(this.friends.length>0)
+    {
+  
+    desired.div(this.friends.length);
+    desired.sub(this.pos);
+    desired.setMag(this.max_vel);
+    desired.sub(this.vel);
+    desired.limit(this.max_acc);
+    }
+    return(desired);
+  }
+}
+class world
+{
+  constructor(width,height,num_of_birds,scale)
+  {
+    this.scale=scale;
+    this.birds=[];
+    this.num=num_of_birds;
+    for(var i=0;i<this.num;i++)
+    {
+      this.birds.push(new bird());
+    }
+  }
+  draw()
+  {
+    for(var i=0;i<this.num;i++)
+    {
+      this.birds[i].perception(this.birds);
+      this.birds[i].update();
+      this.birds[i].draw();
     }
   }
   update()
   {
-    var tCells = [];
-    var ccol=[];
-    for(var r=0;r<this.rows;r++)
-    {
-      for(var c=0;c<this.cols;c++)
-      {
-        ccol.push(this.cells[r][c]);
-      }
-      tCells.push(ccol);
-      ccol=[];
-    }
-    for(var r=0;r<this.rows;r++)
-    {
-      for(var c=0;c<this.cols;c++)
-      {
-        // count neighbours
-          let neighbours=0;
-
-          for(var i=-1;i<2;i++)
-          {
-            for(var j=-1;j<2;j++)
-            {
-              neighbours+=tCells[(this.rows+r+i)%this.rows][(this.cols+c+j)%this.cols];
-            }
-          }
-          neighbours-=tCells[r][c];
-          if(tCells[r][c]==1)
-          {
-            if(neighbours<2 || neighbours >3)
-            {
-              this.cells[r][c]=0;
-            }
-          }
-          else {
-            if(neighbours==3)
-            {
-              this.cells[r][c]=1;
-            }
-          }
-      }}
-    }
+          
+  }
 }
