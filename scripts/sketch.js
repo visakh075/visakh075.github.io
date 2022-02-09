@@ -1,14 +1,14 @@
 var run=true;
-var wWidth = document.getElementById('gol').offsetWidth;
-var wHeight=  document.getElementById('gol').offsetHeight;
+//var wWidth = document.getElementById('gol').offsetWidth;
+//var wHeight=  document.getElementById('gol').offsetHeight;
 var wScale=5;
-var pack=new world(wWidth,wHeight,250,5);
+var pack;
 
 function setup() {
   // put setup code here
   frameRate(30);
-  windowResized();
-  var cnv=createCanvas(wWidth,wHeight);
+  var cnv=createCanvas(windowWidth, windowHeight);
+  pack=new world(height,width,150,5);
   cnv.parent('gol');
 }
 

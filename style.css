@@ -6,11 +6,13 @@ body {
   font-family: 'Architects Daughter', cursive;
 }
 #gol{
-  display: flex;
+  display: table;
   align-items: center;
   width:100vw;
   height: 100vh;
-
+  position: fixed !important;
+  top:0;
+  left: 0;
 }
 #gol > *
 {
@@ -18,9 +20,16 @@ body {
 }
 .content
 {
+  opacity: .5;
   color: white;
   padding: 8px;
   background-color: #4b5162;
+}
+.anchor
+{
+  display: table;
+  width:100vw;
+  height: 100vh;
 }
 .game_of_life_info
 {
