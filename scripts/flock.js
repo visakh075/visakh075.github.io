@@ -10,8 +10,9 @@ class bird
       this.perc_rad=50;
       this.scale=10;
       this.friends=[];
-      //this.color=new p5.Color(Math.random(255),Math.random(255),Math.random(255));
-      //this.color=Math.random(colors);
+      // this.color=this.p5.color(Math.random()*255,Math.random()*255,Math.random()*255);
+      var colors=[this.p5.color(252, 132, 3),this.p5.color(3, 252, 28),this.p5.color(24, 166, 201)];
+      this.color=colors[Math.floor(Math.random()*colors.length)];
       this.max_vel=4;
       this.max_acc=.2;
       
@@ -74,15 +75,17 @@ class bird
         var st=this.scale*Math.sin(theta)/3;
         var ct=this.scale*Math.cos(theta)/3;
         
-        this.p5.fill("#5294e2")
-        this.p5.stroke("#5294e2");
-        //this.p5.stroke(this.color);
+        // this.p5.fill("#5294e2");
+        // this.p5.stroke("#5294e2");
+        this.p5.stroke(this.color);
+        this.p5.fill(this.color);
+
         this.p5.beginShape();
         this.p5.vertex(x-st,y+ct);
         this.p5.vertex(x+st,y-ct);
         this.p5.vertex(x+6*ct,y+6*st);
         this.p5.endShape(this.p5.CLOSE);
-        this.p5.noFill();
+        //this.p5.noFill();
 
 
         //circle(this.pos.x,this.pos.y,this.perc_rad);
