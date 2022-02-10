@@ -10,8 +10,8 @@ class bird
       this.perc_rad=50;
       this.scale=10;
       this.friends=[];
-      // this.color=new p5.Color(Math.random(255),Math.random(255),Math.random(255));
-      // this.color=Math.random(colors);
+      //this.color=new p5.Color(Math.random(255),Math.random(255),Math.random(255));
+      //this.color=Math.random(colors);
       this.max_vel=4;
       this.max_acc=.2;
       
