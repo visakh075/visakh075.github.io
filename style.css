@@ -8,7 +8,7 @@ body {
 #sim_back{
   display: block;
   position: fixed !important;
-  z-index: 0;
+  z-index: -1;
 }
 #flock_sim{
   display: table;
@@ -27,6 +27,7 @@ body {
   color: white;
   padding: 8px;
   background-color: #4b5162;
+  z-index: 0;
 }
 .anchor
 {
