@@ -8,7 +8,7 @@ body {
 #sim_back{
   display: block;
   position: fixed !important;
-  z-index: -1;
+  z-index: 0;
 }
 #flock_sim{
   display: table;
