@@ -1,42 +1,75 @@
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
-body {
+*
+{  box-sizing: border-box;}
+body,html,main{
   padding: 0;
   margin: 0;
-  background: #383c4a;
+  width: 100vw;
+  height: 100%;
+  background-color: #383c4a;
   font-family: 'Architects Daughter', cursive;
+  z-index: -11;
 }
-#sim_back{
-  display: block;
-  position: fixed !important;
-  z-index: -1;
+body
+{
+  overflow-y: hidden;
 }
-#flock_sim{
-  display: table;
-  align-items: center;
-  width:100vw;
-  height: 100vh;
+main
+{
+  z-index: 1;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+main section.box,section.anchor
+{
+  position: relative;
+  min-height: 100vh;
+  width: 100vw; 
+  border: 1px white dashed;
+  scroll-snap-align: start;
+  z-index: 1;
+}
+
+section.box
+{
+  padding: 5px;
+  color:white;
+  background-color:#4b5162aa;
+}
+.box .header
+{
+  display: box;
   top:0;
-  left: 0;
+  right:0;
+  height: 20px;
 }
-#flock_sim > *
+section.anchor
+{
+  background-color: transparent;
+}
+.box p
+{
+  margin:0;
+  text-align: justify;
+}
+
+
+section.sim_back
+{
+  position:absolute !important;
+  width:100vw;
+  height:100vh;
+  left: 0;
+  top: 0;
+}
+#flock_sim
+{
+  height: 100%;
+  width: 100%;
+}
+.flock_sim > *
 {
   margin:auto;
 }
-.content
-{
-  color: white;
-  padding: 8px;
-  background-color: #4b5162;
-  z-index: 0;
-}
-.anchor
-{
-  display: table;
-  width: 100vw;
-  height: 100vh;
-}
-#body_content
-{
-  top:0;
-  left: 0;
-}
+
+
