@@ -29,7 +29,6 @@ main section.box,section.anchor
   scroll-snap-align: start;
   z-index: 1;
 }
-
 section.box
 {
   padding: 5px;
@@ -52,8 +51,6 @@ section.anchor
   margin:0;
   text-align: justify;
 }
-
-
 section.sim_back
 {
   position:absolute !important;

@@ -11,6 +11,7 @@ class bird
       this.scale=10;
       this.friends=[];
       // this.color=this.p5.color(Math.random()*255,Math.random()*255,Math.random()*255);
+      this.type=0;
       var colors=[this.p5.color(252, 132, 3),this.p5.color(3, 252, 28),this.p5.color(24, 166, 201)];
       this.color=colors[Math.floor(Math.random()*colors.length)];
       this.max_vel=4;
@@ -24,6 +25,7 @@ class bird
       this.pos.mult(500);
       this.vel=p5.Vector.random2D().mult(5);
       this.acc=new p5.Vector(0,0);
+      this.debug=false;
     }
     update()
     {
@@ -85,10 +87,10 @@ class bird
         this.p5.vertex(x+st,y-ct);
         this.p5.vertex(x+6*ct,y+6*st);
         this.p5.endShape(this.p5.CLOSE);
-        //this.p5.noFill();
+        this.p5.noFill();
 
-
-        //circle(this.pos.x,this.pos.y,this.perc_rad);
+        if(this.debug===true)
+        {this.p5.circle(this.pos.x,this.pos.y,this.perc_rad);}
     }
     
   perception(birds)
@@ -100,7 +102,7 @@ class bird
       //var d=400;
       if(d<this.perc_rad && this!=birds[i] && d!=0)
       {
-        this.friends.push([birds[i],d]);
+        this.friends.push([birds[i],d,birds[i].type]);
       }
     }
   }
@@ -144,7 +146,12 @@ class bird
   {
     var desired=new p5.Vector(0,0);
     for(var i=0;i<this.friends.length;i++)
-    {
+    { 
+      // if(this.friends.type==1)
+      // {
+      //   desired.add(this.friends[i][0].pos.mult(-10));
+      // }
+      // else
       desired.add(this.friends[i][0].pos);
     }
     if(this.friends.length>0)
@@ -152,11 +159,19 @@ class bird
 
       desired.div(this.friends.length);
       desired.sub(this.pos);
+      
       desired.setMag(this.max_vel);
       desired.sub(this.vel);
       desired.limit(this.max_acc);
     }
     return(desired);
+  }
+  seek(target)
+  {
+    var desired=new p5.Vector(0,0);
+    desired=this.p5.Vector.sub(target-this.pos);
+    desired.setMag(this.max_vel);
+    return(seek);
   }
 }
 class world
@@ -208,6 +223,21 @@ class world
         this.birds[i].max_vel=4;
       }
     }
+    set_debug()
+    {
+      for(var i=0;i<this.num;i++)
+      {
+        this.birds[i].debug=true;
+      }
+    }
+    set_n_debug()
+    {
+      for(var i=0;i<this.num;i++)
+      {
+        this.birds[i].debug=false;
+      }
+
+    }
 
 }
 var dW=document.getElementById("flock_sim").offsetWidth;
@@ -222,9 +252,10 @@ const s = (sketch) => {
     sketch.setup = () => {
         sketch.p=sketch.createCanvas(dW, dH);
         sketch.run=true;
+        sketch.debug=true;
         sketch.p.parent("flock_sim");
         sketch.frameRate(30);
-        sketch.pack=new world(sketch.width,sketch.height,dens,10,sketch);
+        sketch.pack=new world(sketch.width,sketch.height,100,10,sketch);
     };
   
     sketch.draw = () =>  {
@@ -250,6 +281,27 @@ const s = (sketch) => {
           sketch.run=!sketch.run;
           console.log(sketch.run);
         }
+        else if(sketch.keyCode===83)
+        {
+          sketch.debug=!sketch.debug;
+          console.log(sketch.debug);
+          if(sketch.debug===true)
+          {
+            sketch.pack.set_debug();
+          }
+          else
+          {
+            sketch.pack.set_n_debug();
+          }
+        }
      };
+     sketch.mouseClicked=()=>
+     {
+        for(var i=0;i<sketch.pack.num;i++)
+        {
+          sketch.pack.birds[i].vel.add(sketch.pack.birds[i].seek(sketch.p5.Vector(sketch.mouseX,sketch.mouseY)));
+        }
+     };
+     
   };
 let flock_world_sim = new p5(s);
