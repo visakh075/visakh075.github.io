@@ -24,18 +24,47 @@ main section.box,section.anchor
 {
 	position: relative;
 	min-height: 100vh;
-	width: 100vw; 
+	min-width: 100vw;
+	height: 100vh;
+	width: 100vw;
 	scroll-snap-align: start;
+	border: 0px white dashed;
 	z-index: 1;
 }
 section.box
 {
-	padding: 5px;
 	color:white;
 	background-color:#003049aa;
 }
+.horz_snap
+{
+	top:0;
+	left: 0;
+	display: flex;
+	flex-direction: row;
+	overflow-x: scroll;
+	min-width: 100vw;
+	scroll-snap-type: x mandatory;
+}
 
-
+.horz_snap section.hor_box
+{
+	position: relative;
+	padding: 0 !important;
+	background-color: transparent;
+	flex: none;
+	height: 100vh;
+	width: 100vw;
+	scroll-snap-align: start;
+}
+section.hor_box > *
+{
+	padding: 5px;
+}
+section.box > *
+{
+	padding: 5px;
+}
 .box .header
 {
 	display: box;
