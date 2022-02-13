@@ -362,6 +362,7 @@ class world
 		this.scale=scale;
 		this.birds=[];
 		this.num=num_of_birds;
+		var t_preys=prColor.length;
 		for(var i=0;i<this.num;i++)
 		{
 			this.birds.push(new bird(p5));
@@ -379,10 +380,11 @@ class world
 			else
 			{
 				// type prey >=0
-				this.birds[i].type=i%2;
+				
+				this.birds[i].type=i%t_preys;
 				this.birds[i].perc_rad=100;
-				this.birds[i].color=p5.color(prColor[i%2]);
-				this.birds[i].dbColor=p5.color(dprColor[i%2]);
+				this.birds[i].color=p5.color(prColor[i%t_preys]);
+				this.birds[i].dbColor=p5.color(dprColor[i%t_preys]);
 			}
 		}
 	}
@@ -490,6 +492,9 @@ const s = (sketch) => {
 			// }
 			sketch.pack.update();
 		}
+		else
+		{
+		}
 		sketch.pack.draw();
 	};
 
@@ -522,6 +527,7 @@ const s = (sketch) => {
 		}
 		}
 	};
+
 	sketch.mouseClicked=()=>
 	{
 		// for(var i=0;i<sketch.pack.num;i++)
