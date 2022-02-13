@@ -28,7 +28,6 @@ class bird
         var desired=p5.Vector.sub(target,this.pos);
         desired.limit(this.max_vel);
         desired.sub(this.vel);
-        //return desired;
         if(apply===true)
         {this.applyForce(desired);}
         else
@@ -39,8 +38,9 @@ class bird
     flee(target,apply=false)
     {
         if(apply===true)
-        //return(this.seek(target));
-        {this.applyForce(this.seek(target).mult(-1));}
+        {
+            this.applyForce(this.seek(target).mult(-1));
+        }
         else
         {
             this.seek(target).mult(-1);
@@ -74,17 +74,29 @@ class bird
             }
         }
     }
-    pursuit(target)
+    pursuit(target,apply=false)
     {
         var future=p5.Vector.add(target.pos,target.vel);
-        //target.pos=future;
-        this.arrive(future);
+        if(apply===true)
+        {
+            this.arrive(future,true);
+        }
+        else
+        {
+            return(this.arrive(future,false));
+        }
     }
-    evade(target_o)
+    evade(target,apply=false)
     {
-        var future=p5.Vector.add(target_o.pos,target_o.vel);
-        //target.pos=future;
-        this.flee(future);
+        var future=p5.Vector.add(target.pos,target.vel);
+        if(apply===true)
+        {
+            this.applyForce(this.flee(future));
+        }
+        else
+        {
+            return(this.flee(future));
+        }
     }
     draw()
     {
@@ -100,8 +112,6 @@ class bird
     }
     update()
     {
-        //this.applyForce(this.seekf());
-
         this.vel.add(this.acc);
         this.vel.limit(this.max_vel);
         this.pos.add(this.vel);
@@ -129,7 +139,6 @@ class bird
 }
 const p = (sketch)=>
 {
-    //var tar;
     sketch.setup=()=>
     {
         sketch.canvas=sketch.createCanvas(500,500);
@@ -137,19 +146,17 @@ const p = (sketch)=>
         sketch.bird_x=new bird(sketch);
         sketch.tar= new bird(sketch);
         sketch.tar.vel.mult(0);
-        sketch.bird_x.max_vel=0;
+        sketch.bird_x.max_vel=10;
     };
     sketch.draw=()=>
     {
         sketch.background(0);
         if(sketch.tar!=null)
         {
-            //sketch.tar.vel()
             sketch.bird_x.flee(sketch.tar,true);
-            sketch.tar.pursuit(sketch.bird_x,true);
-            //sketch.tar.seeko(sketch.bird_x);
+            //sketch.tar.pursuit(sketch.bird_x,true);
             sketch.tar.draw();
-            sketch.circle(sketch.tar.x,sketch.tar.y,10);
+            //sketch.circle(sketch.tar.x,sketch.tar.y,10);
             sketch.tar.update();
             
         }

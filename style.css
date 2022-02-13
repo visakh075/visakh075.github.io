@@ -2,71 +2,70 @@
 *
 {  box-sizing: border-box;}
 body,html,main{
-  padding: 0;
-  margin: 0;
-  width: 100vw;
-  height: 100%;
-  background-color: #383c4a;
-  font-family: 'Architects Daughter', cursive;
-  z-index: -11;
+	padding: 0;
+	margin: 0;
+	width: 100vw;
+	height: 100%;
+	background-color: #383c4a;
+	font-family: 'Architects Daughter', cursive;
+	z-index: -11;
 }
 body
 {
-  overflow-y: hidden;
+	overflow-y: hidden;
 }
 main
 {
-  z-index: 1;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+	z-index: 1;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
 }
 main section.box,section.anchor
 {
-  position: relative;
-  min-height: 100vh;
-  width: 100vw; 
-  border: 1px white dashed;
-  scroll-snap-align: start;
-  z-index: 1;
+	position: relative;
+	min-height: 100vh;
+	width: 100vw; 
+	scroll-snap-align: start;
+	z-index: 1;
 }
 section.box
 {
-  padding: 5px;
-  color:white;
-  background-color:#4b5162aa;
+	padding: 5px;
+	color:white;
+	background-color:#4b5162aa;
 }
 .box .header
 {
-  display: box;
-  top:0;
-  right:0;
-  height: 20px;
+	display: box;
+	top:0;
+	right:0;
+	height: 20px;
 }
 section.anchor
 {
-  background-color: transparent;
+	background-color: transparent;
 }
 .box p
 {
-  margin:0;
-  text-align: justify;
+	margin:0;
+	text-align: justify;
 }
 section.sim_back
 {
-  position:absolute !important;
-  width:100vw;
-  height:100vh;
-  left: 0;
-  top: 0;
+	position:absolute !important;
+	width:100vw;
+	height:100vh;
+	left: 0;
+	top: 0;
 }
 #flock_sim
 {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 .flock_sim > *
 {
-  margin:auto;
+	margin:auto;
 }
 
 
