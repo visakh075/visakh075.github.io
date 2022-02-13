@@ -1,4 +1,16 @@
-//import {dist} from Math;
+
+// GLOBALS
+var dW=document.getElementById("flock_sim").offsetWidth;
+var dH=document.getElementById("flock_sim").offsetHeight;
+var dens=Math.min(Math.floor(dH*dW/2000),200);
+
+var bgColor="#003049";
+var pdColor="#D62828";
+var dpdColor="#D6282866";
+
+var prColor=["#F77F00","#FCBF49","#EAE2B7"];
+var dprColor=["#F77F0022","#FCBF4922","#EAE2B722"]
+
 class bird
 {
   	constructor(_p5)
@@ -9,10 +21,10 @@ class bird
 	this.perc_rad=50;
 	this.scale=10;
 	this.friends=[];
-	// this.color=this.p5.color(Math.random()*255,Math.random()*255,Math.random()*255);
+	this.color=this.p5.color(0,0,0);
+	this.dbColor=this.p5.color(0,0,0);
+	
 	this.type=0;
-	var colors=[this.p5.color(252, 132, 3),this.p5.color(3, 252, 28),this.p5.color(24, 166, 201)];
-	this.color=colors[Math.floor(Math.random()*colors.length)];
 	this.max_vel=4;
 	this.max_acc=.2;
 	
@@ -39,12 +51,12 @@ class bird
 
 		if(this.debug)
 		{
+			this.p5.stroke(this.dbColor);
 			var temp=new p5.Vector(this.perc_rad/2,0);
 			for(var i=0;i<4;i++)
 			{	
 				if(forces[i].mag()>0)
 				{
-				this.p5.stroke(255,255,255,20);
 				//temp.setMag(this.perc_rad);
 				temp.setHeading(forces[i].heading());
 				this.p5.line(this.pos.x,this.pos.y,this.pos.x+temp.x,this.pos.y+temp.y);
@@ -106,10 +118,8 @@ class bird
 
 		if(this.debug===true)
 		{
-		this.p5.stroke(255,255,255,10);
+		this.p5.stroke(this.dbColor);
 		this.p5.circle(this.pos.x,this.pos.y,this.perc_rad);
-		//this.p5.stroke(255,255,255,100);
-		//this.p5.line(this.pos.x,this.pos.y,this.pos.x+this.vel.x* this.scale,this.pos.y+this.vel.y*this.scale);
 		}
 
 		this.p5.stroke(this.color);
@@ -291,7 +301,7 @@ class bird
 		var lc=0;
 		for(var i=0;i<this.friends.length;i++)
 		{
-			if(this.friends[i][2]==this.type)
+			if(this.friends[i][2]==this.type || this.type<0) // predators attach
 			{
 			desired.add(this.friends[i][0].pos);
 			lc++;
@@ -326,8 +336,6 @@ class bird
 				{
 					desired.add(this.pursuit(this.friends[i][0],false).mult(-1));
 					lc++;
-					//this.vel.add(this.flee(this.friends[i][0]));
-					// this.vel.(this.max_vel);
 				}
 			}
 			if(lc>0)
@@ -339,7 +347,6 @@ class bird
 			}
 			
 		}
-		//var run=m.mult(10);
 		return(desired);
 	}
 	wander()
@@ -350,7 +357,7 @@ class bird
 }
 class world
 {
-	constructor(width,height,num_of_birds,scale,p5)
+	constructor(width,height,num_of_birds,scale,one_in,p5)
 	{
 		this.scale=scale;
 		this.birds=[];
@@ -358,21 +365,28 @@ class world
 		for(var i=0;i<this.num;i++)
 		{
 			this.birds.push(new bird(p5));
-			if(i%25==0)
+			this.birds[i].scale=scale;
+
+			if(i<Math.floor(this.num/one_in))
 			{
-				// type 1 predator
+				// type predator < 0
+				this.birds[i].scale=1.5*scale; //predator is 10% larger
 				this.birds[i].type=-1;
-				this.birds[i].color=p5.color(255,0,0);
+				this.birds[i].max_vel=0.8*this.birds[i].max_vel;
+				this.birds[i].color=p5.color(pdColor);
+				this.birds[i].dbColor=p5.color(dpdColor);
 			}
 			else
 			{
-				// type 2 prey
-				this.birds[i].type=0;
+				// type prey >=0
+				this.birds[i].type=i%2;
 				this.birds[i].perc_rad=100;
-				this.birds[i].color=p5.color(0,255,125);
+				this.birds[i].color=p5.color(prColor[i%2]);
+				this.birds[i].dbColor=p5.color(dprColor[i%2]);
 			}
 		}
 	}
+	
 	draw()
 	{
 		for(var i=0;i<this.num;i++)
@@ -439,42 +453,41 @@ class world
 		}
 	}
 }
-
-
-
-var dW=document.getElementById("flock_sim").offsetWidth;
-var dH=document.getElementById("flock_sim").offsetHeight;
-dens=100;
-var dens=Math.min(Math.floor(dH*dW/2000),200);
 const s = (sketch) => {
-
-	var width=dW;
-	var height=dH;
 	
 	sketch.setup = () => {
 		sketch.p=sketch.createCanvas(dW, dH);
 		sketch.run=true;
-		sketch.debug=true;
+		sketch.debug=false;
+
 		sketch.p.parent("flock_sim");
 		sketch.frameRate(30);
-		sketch.pack=new world(sketch.width,sketch.height,100,30,sketch);
+		sketch.pack=new world(sketch.width,sketch.height,dens,10,20,sketch);
+		if(sketch.debug===true)
+		{
+			sketch.pack.set_debug();
+		}
+		else
+		{
+			sketch.pack.set_n_debug();
+		}
 	};
   
 	sketch.draw = () =>  
 	{
-		sketch.background('#383c4a');
+		sketch.background(bgColor);
 		
 		if(sketch.run===true)
 		{
-			if(sketch.rep!=null)
-			{
-			sketch.pack.set_evade(sketch.rep);
-			//sketch.stroke(255,0,0);
-			//sketch.circle(sketch.rep.x,sketch.rep.y,50);
-			sketch.rep.wander();
-			sketch.rep.update();
-			sketch.rep.draw();
-			}
+			// if(sketch.rep!=null)
+			// {
+			// sketch.pack.set_evade(sketch.rep);
+			// //sketch.stroke(255,0,0);
+			// //sketch.circle(sketch.rep.x,sketch.rep.y,50);
+			// sketch.rep.wander();
+			// sketch.rep.update();
+			// sketch.rep.draw();
+			// }
 			sketch.pack.update();
 		}
 		sketch.pack.draw();
@@ -489,16 +502,16 @@ const s = (sketch) => {
 
 	sketch.keyPressed = () =>
 		{
-		console.log(sketch.keyCode);
+		//console.log(sketch.keyCode);
 		if(sketch.keyCode===80)
 		{
 		sketch.run=!sketch.run;
-		console.log(sketch.run);
+		//console.log(sketch.run);
 		}
-		else if(sketch.keyCode===83)
+		else if(sketch.keyCode===68)
 		{
 		sketch.debug=!sketch.debug;
-		console.log(sketch.debug);
+		//console.log(sketch.debug);
 		if(sketch.debug===true)
 		{
 			sketch.pack.set_debug();
@@ -511,15 +524,15 @@ const s = (sketch) => {
 	};
 	sketch.mouseClicked=()=>
 	{
-		for(var i=0;i<sketch.pack.num;i++)
-		{
-			sketch.rep=new bird(sketch);
-			sketch.rep.pos=sketch.createVector(sketch.mouseX,sketch.mouseY);
-			sketch.rep.color=sketch.color(255,0,0);
-			sketch.rep.scale=20;
+		// for(var i=0;i<sketch.pack.num;i++)
+		// {
+		// 	sketch.rep=new bird(sketch);
+		// 	sketch.rep.pos=sketch.createVector(sketch.mouseX,sketch.mouseY);
+		// 	sketch.rep.color=sketch.color(255,0,0);
+		// 	sketch.rep.scale=20;
 		
-		//sketch.pack.birds[i].vel.add(sketch.pack.birds[i].seek(sketch.p5.Vector(sketch.mouseX,sketch.mouseY)));
-		}
+		// //sketch.pack.birds[i].vel.add(sketch.pack.birds[i].seek(sketch.p5.Vector(sketch.mouseX,sketch.mouseY)));
+		// }
 	};
 	
   };
