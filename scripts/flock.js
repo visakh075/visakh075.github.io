@@ -2,14 +2,15 @@
 // GLOBALS
 var dW=document.getElementById("flock_sim").offsetWidth;
 var dH=document.getElementById("flock_sim").offsetHeight;
-var dens=Math.min(Math.floor(dH*dW/2000),200);
+var dens=Math.min(Math.floor(dH*dW/2000),150);
 
 var bgColor="#003049";
 var pdColor="#D62828";
 var dpdColor="#D6282866";
 
 var prColor=["#F77F00","#FCBF49","#EAE2B7"];
-var dprColor=["#F77F0022","#FCBF4922","#EAE2B722"]
+var dprColor=["#F77F0022","#FCBF4922","#EAE2B722"];
+var velRatio=[1,1.2,1.4];
 
 class bird
 {
@@ -52,7 +53,7 @@ class bird
 		if(this.debug)
 		{
 			this.p5.stroke(this.dbColor);
-			var temp=new p5.Vector(this.perc_rad/2,0);
+			var temp=new p5.Vector(this.perc_rad/3,0);
 			for(var i=0;i<4;i++)
 			{	
 				if(forces[i].mag()>0)
@@ -383,6 +384,7 @@ class world
 				
 				this.birds[i].type=i%t_preys;
 				this.birds[i].perc_rad=100;
+				this.birds[i].max_vel=this.birds[i].max_vel*velRatio[i%t_preys];
 				this.birds[i].color=p5.color(prColor[i%t_preys]);
 				this.birds[i].dbColor=p5.color(dprColor[i%t_preys]);
 			}
@@ -464,7 +466,7 @@ const s = (sketch) => {
 
 		sketch.p.parent("flock_sim");
 		sketch.frameRate(30);
-		sketch.pack=new world(sketch.width,sketch.height,dens,10,20,sketch);
+		sketch.pack=new world(sketch.width,sketch.height,dens,10,70,sketch);
 		if(sketch.debug===true)
 		{
 			sketch.pack.set_debug();
