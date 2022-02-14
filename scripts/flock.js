@@ -8,8 +8,8 @@ var bgColor="#003049";
 var pdColor="#D62828";
 var dpdColor="#D6282866";
 
-var prColor=["#F77F00","#FCBF49","#EAE2B7"];
-var dprColor=["#F77F0022","#FCBF4922","#EAE2B722"];
+var prColor=["#F77F00","#FCBF49"];//,"#EAE2B7"];
+var dprColor=["#F77F0022","#FCBF4922"];//,"#EAE2B722"];
 var velRatio=[1,1.2,1.4];
 
 class bird
@@ -54,21 +54,16 @@ class bird
 		{
 			this.p5.stroke(this.dbColor);
 			var temp=new p5.Vector(this.perc_rad/3,0);
-			for(var i=0;i<4;i++)
+			for(var i=0;i<forces.length;i++)
 			{	
 				if(forces[i].mag()>0)
 				{
-				//temp.setMag(this.perc_rad);
 				temp.setHeading(forces[i].heading());
 				this.p5.line(this.pos.x,this.pos.y,this.pos.x+temp.x,this.pos.y+temp.y);
 				}
 			}
 		}
 
-		// var sep=this.separation().mult(0);
-		// var ali=this.align().mult(0);
-		// var coh=this.cohision().mult(0);
-		//this.evade_pred();
 		var total=p5.Vector.add(coh,ali);
 		total.add(sep);
 
