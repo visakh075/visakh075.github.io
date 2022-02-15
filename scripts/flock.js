@@ -2,25 +2,42 @@
 // GLOBALS
 var dW=document.getElementById("flock_sim").offsetWidth;
 var dH=document.getElementById("flock_sim").offsetHeight;
+
+// desnsity function populate simulation depending on screen resolution
 var dens=Math.min(Math.floor(dH*dW/2000),150);
 
-var bgColor="#24305E";
-var pdColor="#f76c6c";
-var dpdColor="#f76c6c66";
-
-
+// theme    background 
+var cAlpha= "22";
 var theme =["#24305E","#374785","A8D0E6","#f76c6c","#f8e9a1"];
+var alpha_theme=[];
+theme.forEach(
+	function(item,index,array)
+	{
+		alpha_theme.push(item+cAlpha);
+	}
+);
 
-var prColor=["#A8D0E6",theme[4]];//,"#EAE2B7"];
-var dprColor=["#A8D0E622",theme[4]+"22"];//,"#EAE2B722"];
-var velRatio=[1,1.2,1.4];
+var bgColor=theme[0];
+
+var pdColor=theme[1];
+var dpdColor=alpha_theme[1];
+
+var prColor=theme.slice(2);
+var dprColor=alpha_theme.slice(2);
+
+var velRatio=[1,1.5,1.5];
 
 var one_in=50;
 var scale=10;
 var acc_per_vel=1/10;
 var perc_per_scale=10;
 
+var g_min_vel=1;
+var g_max_vel=20;
+var g_min_sze=4;
+var g_max_sze=15;
 
+// classes
 class bird
 {
   	constructor(_p5)
@@ -383,7 +400,6 @@ class world
 			if(i<Math.floor(this.num/one_in))
 			{
 				// type predator < 0
-				this.birds[i].scale=1.5*scale; //predator is 10% larger
 				this.birds[i].perc_rad=this.birds[i].scale*perc_per_scale;
 				this.birds[i].type=-1;
 				this.birds[i].max_vel=0.8*this.birds[i].max_vel;
@@ -394,10 +410,8 @@ class world
 			else
 			{
 				// type prey >=0
-				
 				this.birds[i].type=i%t_preys;
 				this.birds[i].perc_rad=this.birds[i].scale*perc_per_scale;
-				// this.birds[i].perc_rad=100;
 				this.birds[i].max_vel=this.birds[i].max_vel*velRatio[i%t_preys];
 				this.birds[i].max_acc=this.birds[i].max_vel*acc_per_vel;
 				this.birds[i].color=p5.color(prColor[i%t_preys]);
@@ -542,6 +556,8 @@ class world
 		}
 	}
 }
+
+// setting up the flock simulation sketch
 const s = (sketch) => {
 	
 	sketch.setup = () => {
@@ -595,16 +611,16 @@ const s = (sketch) => {
 
 	sketch.keyPressed = () =>
 		{
-		//console.log(sketch.keyCode);
+		
 		if(sketch.keyCode===80)
 		{
 		sketch.run=!sketch.run;
-		//console.log(sketch.run);
+		
 		}
 		else if(sketch.keyCode===68)
 		{
 		sketch.debug=!sketch.debug;
-		//console.log(sketch.debug);
+		
 		if(sketch.debug===true)
 		{
 			sketch.pack.set_debug();
@@ -634,17 +650,28 @@ let flock_world_sim = new p5(s);
 
 function control_update()
 {
-	console.log("update");
-	//console.log(flock_world_sim.pack.birds);
-	$(".speed_control .tune_bar .progress").each(
-		function ()
+	console.log("control update >");
+	$(".tune_bar").each(
+	function ()
 		{
 			var id=$(this).attr("id");
-			var val = flock_world_sim.pack.get_tune_type(id,"vel");
-			var t_w=$(this).parent().width();
-			var w_map=smap(0,10,0,t_w,val);
-			console.log(id,val,w_map);
-			$(this).width(w_map);
+			var t_w = $(this).width();
+			var type= $(this).attr("data-w");
+
+			if(type=="speed")
+			{
+				var val = flock_world_sim.pack.get_tune_type(id,"vel");
+				var w_map = smap(g_min_vel,g_max_vel,0,t_w,val);
+				$(this).find('.progress').width(w_map);
+			}
+			else if(type=="scale")
+			{
+				var val = flock_world_sim.pack.get_tune_type(id,"scale");
+				var w_map = smap(g_min_sze,g_max_sze,0,t_w,val);
+				$(this).find('.progress').width(w_map);
+			}
+			console.log("control update <");
+
 		}
 	);
 }

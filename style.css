@@ -2,7 +2,7 @@
 :root
 {
 	--main-bg:#24305E;
-	--main-bg-tr:#24305e6c;
+	--main-bg-tr:#24305ee1;
 }
 *{  
 	box-sizing: border-box;
@@ -42,18 +42,22 @@ main
 main section.box,section.anchor
 {
 	position: relative;
-	min-height: 100vh;
-	min-width: 100wh;
+	flex: none;
+
 	height: 100vh;
 	width: 100vw;
+
 	scroll-snap-align: start;
+	
 	border: 0px white dashed;
-	z-index: 1;
-}
-section.box
-{
 	color:white;
 	background-color: var(--main-bg-tr);
+	
+	z-index: 1;
+}
+section.anchor
+{
+	background-color: transparent !important;
 }
 .horz_snap
 {
@@ -65,20 +69,7 @@ section.box
 	min-width: 100vw;
 	scroll-snap-type: x mandatory;
 }
-.horz_snap section.hor_box
-{
-	position: relative;
-	padding: 0 !important;
-	background-color: var(--main-bg-tr);
-	flex: none;
-	height: 100vh;
-	width: 100vw;
-	scroll-snap-align: start;
-}
-section.hor_box > *
-{
-	padding: 5px;
-}
+
 section.box > *
 {
 	padding: 5px;
@@ -89,10 +80,6 @@ section.box > *
 	top:0;
 	right:0;
 	height: 20px;
-}
-section.anchor
-{
-	background-color: transparent;
 }
 .box p
 {

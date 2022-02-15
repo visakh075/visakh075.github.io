@@ -2,33 +2,35 @@
 <html lang="">
 
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-
-  <link rel="stylesheet" href="cntrl_style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.slim.js"></script>
   
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cntrl_style.css">
 
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.js"></script>
+  <script src="scripts/p5.js"></script>
 
   <title>visakh @ github</title>
-
-  <!-- <script src="../addons/p5.sound.js"></script> -->
 
 </head>
 <body>
   <main>
-    <script src="scripts/p5.js"></script>
-
+    <!-- simultation section -->
     <section class='sim_back'>
       <div id='flock_sim'></div>
+
+      <!-- Dont Change the order dependencies -->
       <script src="scripts/flock.js"></script>
       <script src="scripts/controls.js"></script>
+    
     </section>
     
+    <!-- instructions and control -->
     <section class="box horz_snap transp">
-      <section class="hor_box anchor transp"></section>
-      <section class="hor_box">
+      <section class="box anchor transp"></section>
+      <section class="box">
         <p>instruction
         <ul>
           <li>p pause</li>
@@ -39,7 +41,8 @@
         </p>
       </section>
     </section>
-
+    
+    <!-- prelog -->
     <section class="box">
       <p>
       Hello there,</br>
@@ -61,16 +64,17 @@
       </p>
     </section>
     
+    <!-- other -->
     <section class="box horz_snap transp">
-      <section class="hor_box">
+      <section class="box">
       <p>Hi</p>
       </section>
 
-      <section class="hor_box">
+      <section class="box">
       <p>I am</p>
       </section>
 
-      <section class="hor_box">
+      <section class="box">
       <p>Visakh</p>
       </section>
     </section>

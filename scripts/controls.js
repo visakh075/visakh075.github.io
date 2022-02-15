@@ -66,19 +66,22 @@ function main()
         var t_w=$(this).width();
         var type=$(this).attr("id");
         var val=event.pageX-left;
-        $(this).find(".progress").css("width",val);
+        
         console.log($(this).attr("data-w"));
 
         if($(this).attr("data-w")=='speed')
         {
-            flock_world_sim.pack.set_tune_type(type,'vel',smap(0,t_w,0,10,val));
-            flock_world_sim.pack.set_tune_type(type,'acc',smap(0,t_w,0,10,val)*acc_per_vel);
+            var spd=smap(0,t_w,g_min_vel,g_max_vel,val);
+            flock_world_sim.pack.set_tune_type(type,'vel',spd);
+            flock_world_sim.pack.set_tune_type(type,'acc',spd*acc_per_vel);
         }
         else if($(this).attr("data-w")=='scale')
         {
-            flock_world_sim.pack.set_tune_type(type,'scale',smap(0,t_w,5,20,val));
-            flock_world_sim.pack.set_tune_type(type,'perc',smap(0,t_w,5,20,val)*perc_per_scale);            
+            var scl=smap(0,t_w,g_min_sze,g_max_sze,val);
+            flock_world_sim.pack.set_tune_type(type,'scale',scl);
+            flock_world_sim.pack.set_tune_type(type,'perc',scl*perc_per_scale);            
         }
+        $(this).find(".progress").css("width",val);
         
     });
     $(".tune_bar").mousemove(
@@ -87,15 +90,26 @@ function main()
             var offset = $(this).offset();
             var left = offset.left;
             var t_w=$(this).width();
-            var type=$(this).attr("id");
+            //var type=$(this).attr("id");
             var val=event.pageX-left;
-            
+            var type=$(this).attr("data-w");
             if(event.buttons==1)
             {
                 $(this).find(".progress").css("width",val);
-                flock_world_sim.pack.set_tune_type(type,'vel',smap(0,t_w,0,10,val));
-                flock_world_sim.pack.set_tune_type(type,'acc',smap(0,t_w,0,10,val)*acc_per_vel);
+                if(type=='speed')
+                {
+                    var spd=smap(0,t_w,g_min_vel,g_max_vel,val);
+                    flock_world_sim.pack.set_tune_type(type,'vel',spd);
+                    flock_world_sim.pack.set_tune_type(type,'acc',spd*acc_per_vel);
+                }
+                else if(type=='scale')
+                {
+                    var scl=smap(0,t_w,g_min_sze,g_max_sze,val);
+                    flock_world_sim.pack.set_tune_type(type,'scale',scl);
+                    flock_world_sim.pack.set_tune_type(type,'perc',scl*perc_per_scale);   
+                }
             }
+            
         }
     );
     console.log("document ready <")
