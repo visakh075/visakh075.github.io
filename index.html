@@ -5,27 +5,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="cntrl_style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.js"></script>
+  
+
+
   <title>visakh @ github</title>
 
   <!-- <script src="../addons/p5.sound.js"></script> -->
 
 </head>
 <body>
-<main>
-
+  <main>
     <script src="scripts/p5.js"></script>
-
-    <!-- <script src="scripts/sketch.js"></script> -->
-    <!-- <script src="scripts/flock_.js"></script> -->
-    <!--
-    <section class="box control">
-      instructions
-    </section>
-    -->
 
     <section class='sim_back'>
       <div id='flock_sim'></div>
       <script src="scripts/flock.js"></script>
+      <script src="scripts/controls.js"></script>
     </section>
     
     <section class="box horz_snap transp">
@@ -35,6 +33,7 @@
         <ul>
           <li>p pause</li>
           <li>d decession circle</li>
+          <li class ="speed_control"></li>
         </ul>
         </p>
       </section>
@@ -69,8 +68,6 @@
       <p>Visakh</p>
       </section>
     </section>
-    <!-- <div id="othr"></div> -->
-    <!-- <script src="scripts/brow.js"></script> -->
 
   </main>
 </body>

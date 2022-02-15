@@ -2,15 +2,18 @@ div.tune_bar
 {
     display: block;
     position: relative;
-    height: 30px;
+    height: 20px;
     width: 400px;
     border: 1px white solid;
     background-color: transparent;
+    margin:5px;
 }
-div.tune_bar .progress
+div.tune_bar div.progress
 {
     display: inherit;
+    position:relative;
     width: 0;
-    height: 28px;
+    top:0;
+    height: 18px;
     background-color: #ffffff33;
 }

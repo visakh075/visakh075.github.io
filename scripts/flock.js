@@ -5,11 +5,14 @@ var dH=document.getElementById("flock_sim").offsetHeight;
 var dens=Math.min(Math.floor(dH*dW/2000),150);
 
 var bgColor="#24305E";
-var pdColor="#374785";
-var dpdColor="#37478566";
+var pdColor="#f76c6c";
+var dpdColor="#f76c6c66";
 
-var prColor=["#A8D0E6","#f76c6c"];//,"#EAE2B7"];
-var dprColor=["#A8D0E622","#f76c6c22"];//,"#EAE2B722"];
+
+var theme =["#24305E","#374785","A8D0E6","#f76c6c","#f8e9a1"];
+
+var prColor=["#A8D0E6",theme[4]];//,"#EAE2B7"];
+var dprColor=["#A8D0E622","#37478522"];//,"#EAE2B722"];
 var velRatio=[1,1.2,1.4];
 
 var one_in=50;
@@ -364,6 +367,7 @@ class world
 {
 	constructor(width,height,num_of_birds,scale,one_in,p5)
 	{
+		console.log("world >");
 		this.scale=scale;
 		this.birds=[];
 		this.num=num_of_birds;
@@ -393,6 +397,7 @@ class world
 				this.birds[i].dbColor=p5.color(dprColor[i%t_preys]);
 			}
 		}
+		console.log("world <");
 	}
 	
 	draw()
@@ -430,6 +435,75 @@ class world
 			this.birds[i].cW=1;
 			this.birds[i].max_acc=.2;
 			this.birds[i].max_vel=4;
+		}
+	}
+	set_tune_type(type,coef,value)
+	{
+		for(var i=0;i<this.num;i++)
+		{
+			if(this.birds[i].type==type)
+			{
+
+				switch (coef) {
+					case 'aW':
+						this.birds[i].aW=value;
+						break;
+					case 'sW':
+						this.birds[i].sW=value;
+						break;
+					case 'cW':
+						this.birds[i].cW=value;
+						break;
+					case 'eW':
+						this.birds[i].eW=value;
+						break;
+					case 'vel':
+						this.birds[i].max_vel=value;
+						break;
+					case 'acc':
+						this.birds[i].max_acc=value;
+						break;
+					case 'perc':
+						this.birds[i].perc_rad=value;
+						break;
+					case 'scale':
+						this.birds[i].scale=value;
+						break;
+					case 'color':
+						this.birds[i].color=value;
+						break;
+				}
+			}
+		}
+	}
+	get_tune_type(type,coef)
+	{
+		for(var i=0;i<this.num;i++)
+		{
+			if(this.birds[i].type==type)
+			{
+
+				switch (coef) {
+					case 'aW':
+						return(this.birds[i].aW);
+					case 'sW':
+						return(this.birds[i].sW);
+					case 'eW':
+						return(this.birds[i].eW);
+					case 'cW':
+						return(this.birds[i].cW);
+					case 'vel':
+						return(this.birds[i].max_vel);
+					case 'acc':
+						return(this.birds[i].max_acc);
+					case 'perc':
+						return(this.birds[i].perc_rad);
+					case 'scale':
+						return(this.birds[i].scale);
+					case 'color':
+						return(this.birds[i].color);
+				}
+			}
 		}
 	}
 	set_debug()
@@ -471,6 +545,7 @@ const s = (sketch) => {
 		sketch.p.parent("flock_sim");
 		sketch.frameRate(30);
 		sketch.pack=new world(sketch.width,sketch.height,dens,scale,one_in,sketch);
+		control_update();
 		if(sketch.debug===true)
 		{
 			sketch.pack.set_debug();
@@ -547,5 +622,22 @@ const s = (sketch) => {
 		// }
 	};
 	
-  };
+};
 let flock_world_sim = new p5(s);
+
+function control_update()
+{
+	console.log("update");
+	//console.log(flock_world_sim.pack.birds);
+	$(".speed_control .tune_bar .progress").each(
+		function ()
+		{
+			var id=$(this).attr("id");
+			var val = flock_world_sim.pack.get_tune_type(id,"vel");
+			var t_w=$(this).parent().width();
+			var w_map=smap(0,10,0,t_w,val);
+			console.log(id,val,w_map);
+			$(this).width(w_map);
+		}
+	);
+}
