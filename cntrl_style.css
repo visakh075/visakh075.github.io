@@ -1,6 +1,16 @@
 div.tune_bar
 {
+    display: block;
+    position: relative;
     height: 30px;
     width: 400px;
     border: 1px white solid;
+    background-color: transparent;
+}
+div.tune_bar .progress
+{
+    display: inherit;
+    width: 0;
+    height: 28px;
+    background-color: #ffffff33;
 }
