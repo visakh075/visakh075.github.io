@@ -1,12 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
-*
-{  box-sizing: border-box;}
+*{  
+	box-sizing: border-box;
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+}
 *::-webkit-scrollbar {
 	display: none;
-}
-* {
--ms-overflow-style: none;  /* IE and Edge */
-scrollbar-width: none;  /* Firefox */
 }
 .transp
 {
@@ -61,7 +60,6 @@ section.box
 	min-width: 100vw;
 	scroll-snap-type: x mandatory;
 }
-
 .horz_snap section.hor_box
 {
 	position: relative;
