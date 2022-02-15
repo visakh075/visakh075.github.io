@@ -18,16 +18,45 @@ function main()
     console.log("document ready >");
     var nPrey=prColor.length;
     var nTypes=nPrey+1;
-    var curr=$('.speed_control').html("<div>speed</div>");
+
+
+    // Speed Controls
+    var curr=$('.speed_control').html("<div>speeds</div>");
     for(var i=0;i<nPrey;i++)
     {
         var domC="";
-        domC+= "<div class='tune_bar' id='"+i+"'>";
+        domC+= "<div class='tune_bar' id='"+i+"' data-w='speed'>";
         domC+= "<div class='progress' id='"+i+"'style='background-color:"+prColor[i]+"'></div>";
         domC+= "</div>"
         var curr=$('.speed_control').html();
         $('.speed_control').html(curr+domC);
     }
+        var domC="";
+        domC+= "<div class='tune_bar' id='-1' data-w='speed'>";
+        domC+= "<div class='progress' id='-1'style='background-color:"+pdColor+"'></div>";
+        domC+= "</div>"
+        var curr=$('.speed_control').html();
+        $('.speed_control').html(curr+domC);
+
+    // scale controls
+    var curr=$('.scale_control').html("<div>size</div>");
+    for(var i=0;i<nPrey;i++)
+    {
+        var domC="";
+        domC+= "<div class='tune_bar' id='"+i+"' data-w='scale'>";
+        domC+= "<div class='progress' id='"+i+"'style='background-color:"+prColor[i]+"'></div>";
+        domC+= "</div>"
+        var curr=$('.scale_control').html();
+        $('.scale_control').html(curr+domC);
+    }
+        var domC="";
+        domC+= "<div class='tune_bar' id='-1' data-w='scale'>";
+        domC+= "<div class='progress' id='-1'style='background-color:"+pdColor+"'></div>";
+        domC+= "</div>"
+        var curr=$('.scale_control').html();
+        $('.scale_control').html(curr+domC);
+    
+
     
     // adjust tune_bars
     // on bird constructor
@@ -38,7 +67,18 @@ function main()
         var type=$(this).attr("id");
         var val=event.pageX-left;
         $(this).find(".progress").css("width",val);
-        flock_world_sim.pack.set_tune_type(type,'vel',smap(0,t_w,0,10,val));
+        console.log($(this).attr("data-w"));
+
+        if($(this).attr("data-w")=='speed')
+        {
+            flock_world_sim.pack.set_tune_type(type,'vel',smap(0,t_w,0,10,val));
+            flock_world_sim.pack.set_tune_type(type,'acc',smap(0,t_w,0,10,val)*acc_per_vel);
+        }
+        else if($(this).attr("data-w")=='scale')
+        {
+            flock_world_sim.pack.set_tune_type(type,'scale',smap(0,t_w,5,20,val));
+            flock_world_sim.pack.set_tune_type(type,'perc',smap(0,t_w,5,20,val)*perc_per_scale);            
+        }
         
     });
     $(".tune_bar").mousemove(
@@ -54,7 +94,7 @@ function main()
             {
                 $(this).find(".progress").css("width",val);
                 flock_world_sim.pack.set_tune_type(type,'vel',smap(0,t_w,0,10,val));
-                flock_world_sim.pack.set_tune_type(type,'acc',smap(0,t_w,0,10,val)/8);
+                flock_world_sim.pack.set_tune_type(type,'acc',smap(0,t_w,0,10,val)*acc_per_vel);
             }
         }
     );

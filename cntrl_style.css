@@ -3,7 +3,7 @@ div.tune_bar
     display: block;
     position: relative;
     height: 20px;
-    width: 400px;
+    width: calc (100vh - 20px);
     border: 1px white solid;
     background-color: transparent;
     margin:5px;

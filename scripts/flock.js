@@ -12,11 +12,14 @@ var dpdColor="#f76c6c66";
 var theme =["#24305E","#374785","A8D0E6","#f76c6c","#f8e9a1"];
 
 var prColor=["#A8D0E6",theme[4]];//,"#EAE2B7"];
-var dprColor=["#A8D0E622","#37478522"];//,"#EAE2B722"];
+var dprColor=["#A8D0E622",theme[4]+"22"];//,"#EAE2B722"];
 var velRatio=[1,1.2,1.4];
 
 var one_in=50;
 var scale=10;
+var acc_per_vel=1/10;
+var perc_per_scale=10;
+
 
 class bird
 {
@@ -381,8 +384,10 @@ class world
 			{
 				// type predator < 0
 				this.birds[i].scale=1.5*scale; //predator is 10% larger
+				this.birds[i].perc_rad=this.birds[i].scale*perc_per_scale;
 				this.birds[i].type=-1;
 				this.birds[i].max_vel=0.8*this.birds[i].max_vel;
+				this.birds[i].max_acc=this.birds[i].max_vel*acc_per_vel;
 				this.birds[i].color=p5.color(pdColor);
 				this.birds[i].dbColor=p5.color(dpdColor);
 			}
@@ -391,8 +396,10 @@ class world
 				// type prey >=0
 				
 				this.birds[i].type=i%t_preys;
-				this.birds[i].perc_rad=100;
+				this.birds[i].perc_rad=this.birds[i].scale*perc_per_scale;
+				// this.birds[i].perc_rad=100;
 				this.birds[i].max_vel=this.birds[i].max_vel*velRatio[i%t_preys];
+				this.birds[i].max_acc=this.birds[i].max_vel*acc_per_vel;
 				this.birds[i].color=p5.color(prColor[i%t_preys]);
 				this.birds[i].dbColor=p5.color(dprColor[i%t_preys]);
 			}
