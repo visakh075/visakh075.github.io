@@ -4,13 +4,16 @@ var dW=document.getElementById("flock_sim").offsetWidth;
 var dH=document.getElementById("flock_sim").offsetHeight;
 var dens=Math.min(Math.floor(dH*dW/2000),150);
 
-var bgColor="#003049";
-var pdColor="#D62828";
-var dpdColor="#D6282866";
+var bgColor="#24305E";
+var pdColor="#374785";
+var dpdColor="#37478566";
 
-var prColor=["#F77F00","#FCBF49"];//,"#EAE2B7"];
-var dprColor=["#F77F0022","#FCBF4922"];//,"#EAE2B722"];
+var prColor=["#A8D0E6","#f76c6c"];//,"#EAE2B7"];
+var dprColor=["#A8D0E622","#f76c6c22"];//,"#EAE2B722"];
 var velRatio=[1,1.2,1.4];
+
+var one_in=50;
+var scale=10;
 
 class bird
 {
@@ -58,7 +61,13 @@ class bird
 			{	
 				if(forces[i].mag()>0)
 				{
-				temp.setHeading(forces[i].heading());
+					
+					temp.x=-1*forces[i].x;
+					temp.y=-1*forces[i].y;
+					
+					
+					temp.setMag(this.perc_rad/2);
+					//temp.setHeading(forces[i].heading());
 				this.p5.line(this.pos.x,this.pos.y,this.pos.x+temp.x,this.pos.y+temp.y);
 				}
 			}
@@ -461,7 +470,7 @@ const s = (sketch) => {
 
 		sketch.p.parent("flock_sim");
 		sketch.frameRate(30);
-		sketch.pack=new world(sketch.width,sketch.height,dens,10,70,sketch);
+		sketch.pack=new world(sketch.width,sketch.height,dens,scale,one_in,sketch);
 		if(sketch.debug===true)
 		{
 			sketch.pack.set_debug();
