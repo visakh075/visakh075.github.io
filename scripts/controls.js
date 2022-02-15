@@ -11,7 +11,6 @@
  */
 
 $(document).ready(main);
-
 function main()
 {
     // control panel create in runtime
@@ -56,7 +55,29 @@ function main()
         var curr=$('.scale_control').html();
         $('.scale_control').html(curr+domC);
     
-
+    // pause cand debug
+    $(".control_box li").click(
+        function()
+        {
+            console.log($(this));
+            if($(this).attr("id")=='p_bttn')
+            {
+                flock_world_sim.run=!flock_world_sim.run;
+            }
+            if($(this).attr("id")=='d_bttn')
+            {
+                flock_world_sim.debug=!flock_world_sim.debug;
+                if(flock_world_sim.debug===true)
+                {
+                    flock_world_sim.pack.set_debug();
+                }
+                else
+                {
+                    flock_world_sim.pack.set_n_debug();
+                }
+            }
+        }
+    );
     
     // adjust tune_bars
     // on bird constructor
