@@ -3,7 +3,16 @@ $(document).ready(main);
 
 function main()
 {
-    
+    $(".tune_bar").click(function (event) { 
+        var offset = $(this).offset();
+            var top = offset.top;
+            var left = offset.left;
+            
+            var t_w=$(this).width();
+            var t_h=$(this).height();
+            $(this).find(".progress").css("width",(event.pageX-left));
+        
+    });
     $(".tune_bar").mousemove(
         function(event)
         {
@@ -17,7 +26,7 @@ function main()
             if(event.buttons==1)
             {
                 $(this).find(".progress").css("width",(event.pageX-left));
-                console.log($(this).attr('id'));
+                // console.log($(this).attr('id'));
             }
         }
     );
