@@ -2,9 +2,8 @@
 $(document).ready(main);
 function main()
 {
-    // update the bacgorund css
-    //console.log($(":root").css("--main-bg",bgColor));
-
+    // update the background css
+    
     $(":root").css("--main-bg",bgColor);
     $(":root").css("--main-bg-tr",bgColorTr);
 
@@ -53,7 +52,6 @@ function main()
     $(".control_box li").click(
         function()
         {
-            console.log($(this));
             if($(this).attr("id")=='p_bttn')
             {
                 flock_world_sim.run=!flock_world_sim.run;
@@ -136,7 +134,7 @@ function main()
             right 39
             down 40 
          */
-        
+
         console.log(e.which);
     });
 }
@@ -144,5 +142,3 @@ function smap(i_min,i_max,o_min,o_max,value)
 {
     return(o_min+(o_max-o_min)*value/(i_max-i_min));
 }
-
-//console.log(flock_world_sim.pack);

@@ -475,7 +475,6 @@ class world
 		{
 			if(this.birds[i].type==type)
 			{
-
 				switch (coef) {
 					case 'aW':
 						this.birds[i].aW=value;
@@ -514,7 +513,6 @@ class world
 		{
 			if(this.birds[i].type==type)
 			{
-
 				switch (coef) {
 					case 'aW':
 						return(this.birds[i].aW);
