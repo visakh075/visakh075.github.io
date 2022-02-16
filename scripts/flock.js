@@ -8,7 +8,16 @@ var dens=Math.min(Math.floor(dH*dW/2000),150);
 
 // theme    background 
 var cAlpha= "22";
-var theme =["#24305E","#374785","A8D0E6","#f76c6c","#f8e9a1"];
+
+var theme0 =["#24305E","#374785","A8D0E6","#f76c6c"];
+var theme1 =["#25274d","#484866","#AAABB8","#2E9CCA"];
+var theme2 =["#1A2238","#9DAAF2","#FF6A3D","#F4DB7D"];
+var theme3 =["#1D1D2C","#E40C2B","#F7F4E9","#3CBCC3"];//,"#EBA63F","#438945"];
+var themes=[theme0,theme1,theme2,theme3];
+var theme =themes[Math.floor(Math.random()*themes.length)];
+
+
+
 var alpha_theme=[];
 theme.forEach(
 	function(item,index,array)
@@ -18,6 +27,7 @@ theme.forEach(
 );
 
 var bgColor=theme[0];
+var bgColorTr=theme[0]+"aa";
 
 var pdColor=theme[1];
 var dpdColor=alpha_theme[1];
@@ -36,6 +46,7 @@ var g_min_vel=1;
 var g_max_vel=20;
 var g_min_sze=4;
 var g_max_sze=15;
+
 
 // classes
 class bird

@@ -1,23 +1,17 @@
 // Schedule only after flock
-
-/*
-    var bgColor="#24305E";
-    var pdColor="#f76c6c";
-    var dpdColor="#f76c6c66";
-
-    var prColor=["#A8D0E6",theme[4]];//,"#EAE2B7"];
-    var dprColor=["#A8D0E622","#37478522"];//,"#EAE2B722"];
-
- */
-
 $(document).ready(main);
 function main()
 {
+    // update the bacgorund css
+    //console.log($(":root").css("--main-bg",bgColor));
+
+    $(":root").css("--main-bg",bgColor);
+    $(":root").css("--main-bg-tr",bgColorTr);
+
     // control panel create in runtime
     console.log("document ready >");
     var nPrey=prColor.length;
     var nTypes=nPrey+1;
-
 
     // Speed Controls
     var curr=$('.speed_control').html("<div>speeds</div>");
@@ -132,9 +126,19 @@ function main()
             }
             
         }
+       
     );
     console.log("document ready <")
-
+    $(this).keydown(function (e) { 
+        /*
+         *  left 37
+            up 38
+            right 39
+            down 40 
+         */
+        
+        console.log(e.which);
+    });
 }
 function smap(i_min,i_max,o_min,o_max,value)
 {

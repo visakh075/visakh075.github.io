@@ -70,10 +70,6 @@ section.anchor
 	scroll-snap-type: x mandatory;
 }
 
-section.box > *
-{
-	padding: 5px;
-}
 .box .header
 {
 	display: box;
@@ -112,4 +108,15 @@ ul
 ul li
 {
 	width: 200px;
+}
+.box_wrapper
+{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-left: 10px;
+	padding-right: 10px;
 }
