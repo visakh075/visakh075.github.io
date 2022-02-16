@@ -14,27 +14,37 @@ var theme1 =["#25274d","#484866","#AAABB8","#2E9CCA"];
 var theme2 =["#1A2238","#9DAAF2","#FF6A3D","#F4DB7D"];
 var theme3 =["#1D1D2C","#E40C2B","#F7F4E9","#3CBCC3"];//,"#EBA63F","#438945"];
 var themes=[theme0,theme1,theme2,theme3];
-var theme =themes[Math.floor(Math.random()*themes.length)];
 
+var bgColor;
+var bgColorTr;
 
+var pdColor;
+var dpdColor;
 
-var alpha_theme=[];
-theme.forEach(
-	function(item,index,array)
-	{
-		alpha_theme.push(item+cAlpha);
-	}
-);
+var prColor;
+var dprColor;
 
-var bgColor=theme[0];
-var bgColorTr=theme[0]+"aa";
+function theme_update()
+{
+	var theme =themes[Math.floor(Math.random()*themes.length)];
+	var alpha_theme=[];
+	theme.forEach(
+		function(item,index,array)
+		{
+			alpha_theme.push(item+cAlpha);
+		}
+	);
 
-var pdColor=theme[1];
-var dpdColor=alpha_theme[1];
+	 bgColor=theme[0];
+	 bgColorTr=theme[0]+"aa";
 
-var prColor=theme.slice(2);
-var dprColor=alpha_theme.slice(2);
+	 pdColor=theme[1];
+	 dpdColor=alpha_theme[1];
 
+	 prColor=theme.slice(2);
+	 dprColor=alpha_theme.slice(2);
+}
+theme_update();
 var velRatio=[1,1.5,1.5];
 
 var one_in=50;
@@ -608,6 +618,7 @@ const s = (sketch) => {
 		else
 		{
 		}
+		control_update();
 		sketch.pack.draw();
 	};
 

@@ -120,3 +120,11 @@ ul li
 	padding-left: 10px;
 	padding-right: 10px;
 }
+a,a:visited
+{
+	text-decoration: none;
+	color: inherit;
+}
+a:hover{
+	text-decoration: underline;
+}

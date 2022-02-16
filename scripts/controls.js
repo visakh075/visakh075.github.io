@@ -136,6 +136,10 @@ function main()
          */
 
         console.log(e.which);
+        switch(e.which)
+        {
+
+        }
     });
 }
 function smap(i_min,i_max,o_min,o_max,value)
