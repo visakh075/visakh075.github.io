@@ -128,3 +128,27 @@ a,a:visited
 a:hover{
 	text-decoration: underline;
 }
+a.links
+{
+	display: flex;
+	height: 42px;
+	text-decoration: none;
+	color: inherit;
+	align-items: center;
+	padding: 5px;
+	
+}
+a.links:hover
+{
+	text-decoration: none;
+}
+a.links img.logo {
+	display: inline-block;
+	height: 32px;
+	width: 32px;
+	
+}
+a.links div.title
+{
+	padding: 5px;
+}
