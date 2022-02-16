@@ -26,6 +26,7 @@ var dprColor;
 
 function theme_update()
 {
+	console.log("theme updated");
 	var theme =themes[Math.floor(Math.random()*themes.length)];
 	var alpha_theme=[];
 	theme.forEach(
@@ -43,6 +44,7 @@ function theme_update()
 
 	 prColor=theme.slice(2);
 	 dprColor=alpha_theme.slice(2);
+	 
 }
 theme_update();
 var velRatio=[1,1.5,1.5];
@@ -618,7 +620,7 @@ const s = (sketch) => {
 		else
 		{
 		}
-		control_update();
+		//control_update();
 		sketch.pack.draw();
 	};
 

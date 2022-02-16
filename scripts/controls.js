@@ -138,7 +138,9 @@ function main()
         console.log(e.which);
         switch(e.which)
         {
-
+            case 82:
+                theme_update();
+                //flock_world_sim = new p5(s);
         }
     });
 }
