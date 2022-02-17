@@ -102,22 +102,16 @@ class bird
 		
 		var total=p5.Vector.add(coh,ali);
 		total.add(sep);
-		
 		total.add(fle);
 		
 		this.acc.add(total);
 		this.acc.limit(this.max_acc);
-		
 		this.vel.add(this.acc);
-		
-		
-		
 		this.vel.setMag(this.max_vel);
 		
 		this.pos.add(this.vel);
-		
-		this.acc.mult(0);
-		
+
+		this.acc.mult(0);		
 		if(this.pos.x>this.p5.width)
 		{
 			this.pos.x=0;
@@ -126,7 +120,6 @@ class bird
 		{
 			this.pos.x=this.p5.width;
 		}
-		
 		if(this.pos.y>this.p5.height)
 		{
 			this.pos.y=0;
@@ -135,6 +128,7 @@ class bird
 		{
 			this.pos.y=this.p5.height;
 		}
+		
 		if(this.debug)
 		{
 			this.p5.stroke(this.dbColor);
