@@ -50,7 +50,7 @@ theme_update();
 var velRatio=[1,1.5,1.5];
 
 var one_in=50;
-var scale=10;
+var scale=8;
 var acc_per_vel=1/10;
 var perc_per_scale=10;
 
@@ -99,34 +99,15 @@ class bird
 
 		var forces=[sep,ali,coh,fle];
 
-		if(this.debug)
-		{
-			this.p5.stroke(this.dbColor);
-			var temp=new p5.Vector(this.perc_rad/3,0);
-			for(var i=0;i<forces.length;i++)
-			{	
-				if(forces[i].mag()>0)
-				{
-					
-					temp.x=-1*forces[i].x;
-					temp.y=-1*forces[i].y;
-					
-					
-					temp.setMag(this.perc_rad/2);
-					//temp.setHeading(forces[i].heading());
-				this.p5.line(this.pos.x,this.pos.y,this.pos.x+temp.x,this.pos.y+temp.y);
-				}
-			}
-		}
-
+		
 		var total=p5.Vector.add(coh,ali);
 		total.add(sep);
-
+		
 		total.add(fle);
-
+		
 		this.acc.add(total);
 		this.acc.limit(this.max_acc);
-
+		
 		this.vel.add(this.acc);
 		
 		
@@ -145,7 +126,7 @@ class bird
 		{
 			this.pos.x=this.p5.width;
 		}
-
+		
 		if(this.pos.y>this.p5.height)
 		{
 			this.pos.y=0;
@@ -154,36 +135,43 @@ class bird
 		{
 			this.pos.y=this.p5.height;
 		}
-  	}
+		if(this.debug)
+		{
+			this.p5.stroke(this.dbColor);
+			var temp=new p5.Vector(this.perc_rad/3,0);
+			for(var i=0;i<forces.length;i++)
+			{	
+				if(forces[i].mag()>0)
+				{
+					
+					temp.x=-1*forces[i].x;
+					temp.y=-1*forces[i].y;
+					temp.setMag(this.perc_rad/2);
+					this.p5.line(this.pos.x,this.pos.y,this.pos.x+temp.x,this.pos.y+temp.y);
+				}
+			}
+			this.p5.circle(this.pos.x,this.pos.y,this.perc_rad);
+			// for(var i=0;i<this.friends.length;i++)
+			// {
+			// 	if(this.type==this.friends[i][2])this.p5.line(this.pos.x,this.pos.y,this.friends[i][0].pos.x,this.friends[i][0].pos.y);
+			// }
+		}
+	}
 	draw()
   	{
-		//circle(this.pos.x,this.pos.y,10);
 		var x=this.pos.x;
 		var y=this.pos.y;
 		var theta=this.vel.heading();
 		var st=this.scale*Math.sin(theta)/3;
 		var ct=this.scale*Math.cos(theta)/3;
 		
-		// this.p5.fill("#5294e2");
-		// this.p5.stroke("#5294e2");
-
-		if(this.debug===true)
-		{
-		this.p5.stroke(this.dbColor);
-		this.p5.circle(this.pos.x,this.pos.y,this.perc_rad);
-		}
-
 		this.p5.stroke(this.color);
-		
 		this.p5.noFill();
 		this.p5.beginShape();
 		this.p5.vertex(x-st,y+ct);
 		this.p5.vertex(x+st,y-ct);
 		this.p5.vertex(x+6*ct,y+6*st);
 		this.p5.endShape(this.p5.CLOSE);
-		
-
-
   	}
 	applyForce(force)
 	{
@@ -278,12 +266,11 @@ class bird
 		this.friends=[];
 		for(var i=0;i<birds.length;i++)
 		{
-		var d=this.p5.dist(this.pos.x,this.pos.y,birds[i].pos.x,birds[i].pos.y);
-		//var d=400;
-		if(d<this.perc_rad && this!=birds[i] && d!=0)
-		{
-			this.friends.push([birds[i],d,birds[i].type]);
-		}
+			var d=this.p5.dist(this.pos.x,this.pos.y,birds[i].pos.x,birds[i].pos.y);
+			if(d<this.perc_rad && this!=birds[i] && d!=0)
+			{
+				this.friends.push([birds[i],d,birds[i].type]);
+			}
 		}
 	}
 	separation(apply=false)
@@ -360,10 +347,8 @@ class bird
 		}
 		if(lc>0)
 		{
-
 			desired.div(lc);
 			desired.sub(this.pos);
-			
 			desired.setMag(this.max_vel);
 			desired.sub(this.vel);
 			desired.limit(this.max_acc);
@@ -692,8 +677,7 @@ function control_update()
 				var w_map = smap(g_min_sze,g_max_sze,0,t_w,val);
 				$(this).find('.progress').width(w_map);
 			}
-			console.log("control update <");
-
 		}
 	);
+	console.log("control update <");
 }
