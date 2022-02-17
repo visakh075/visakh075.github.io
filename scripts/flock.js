@@ -9,11 +9,12 @@ var dens=Math.min(Math.floor(dH*dW/2000),150);
 // theme    background 
 var cAlpha= "22";
 
-var theme0 =["#24305E","#374785","A8D0E6","#f76c6c"];
+// var theme0 =["#24305E","#374785","A8D0E6","#f76c6c"];
+// var theme0 =["#24305E","A8D0E6","#f76c6c","#374785"];
 var theme1 =["#25274d","#484866","#AAABB8","#2E9CCA"];
 var theme2 =["#1A2238","#9DAAF2","#FF6A3D","#F4DB7D"];
 var theme3 =["#1D1D2C","#E40C2B","#F7F4E9","#3CBCC3"];//,"#EBA63F","#438945"];
-var themes=[theme0,theme1,theme2,theme3];
+var themes=[theme1,theme2,theme3];
 
 var bgColor;
 var bgColorTr;
