@@ -143,6 +143,20 @@ function main()
                 //flock_world_sim = new p5(s);
         }
     });
+
+    function load_icons()
+    {
+        var content_html="";
+        icon_list.forEach(element => {
+            content_html+="<object data='other/tools_icon/"+element[1]+"' height='80px' width='80px'></object>"
+            //console.log(element);
+        });
+        $("#tools_sec").html(content_html);
+        return(content_html);
+    };
+    load_icons();
+    //console.log(load_icons());
+    
 }
 function smap(i_min,i_max,o_min,o_max,value)
 {

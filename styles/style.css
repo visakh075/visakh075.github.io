@@ -146,9 +146,19 @@ a.links img.logo {
 	display: inline-block;
 	height: 32px;
 	width: 32px;
-	
 }
 a.links div.title
 {
 	padding: 5px;
+}
+#tools_sec
+{
+	flex-wrap:wrap;
+	justify-content: space-evenly;
+}
+#tools_sec > object
+{
+	padding: 10px;
+	background-color: #ffffffc7;
+	border-radius: 5px;
 }
