@@ -165,3 +165,8 @@ a.links div.title
 	background-color: #ffffffc7;
 	border-radius: 5px;
 }
+.comment
+{
+	font-size: smaller;
+	color:#ffffffc7;
+}
