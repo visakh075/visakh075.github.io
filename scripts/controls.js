@@ -131,7 +131,12 @@ function main()
         }
        
     );
-    console.log("document ready <")
+    console.log("document ready <");
+    
+    $(window).scroll(function () { 
+        console.log("Sdfsf");
+    });
+
     $(this).keydown(function (e) { 
         /*
          *  left 37
@@ -142,11 +147,13 @@ function main()
 
 
         console.log(e.which);
+
         switch(e.which)
         {
             case 37:
-                console.log(this);
-                $(this).find("#inst").scrollIntoView();
+                $(".grid").scrollTop(100);    
+            //console.log($(this).find(".grid"));
+                //$(this).find("#inst").scrollIntoView();
             break;
 
             case 38:
