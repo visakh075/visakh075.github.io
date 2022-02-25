@@ -1,4 +1,9 @@
 // Schedule only after flock
+window.addEventListener("keydown", function(e) {
+    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
 $(document).ready(main);
 function main()
 {
@@ -135,12 +140,20 @@ function main()
             down 40 
          */
 
+
         console.log(e.which);
         switch(e.which)
         {
-            case 82:
-                theme_update();
-                //flock_world_sim = new p5(s);
+            case 37:
+                console.log(this);
+                $(this).find("#inst").scrollIntoView();
+            break;
+
+            case 38:
+                console.log(this);
+                $(this).find("main").scrollLeft(10000);
+            break;
+            
         }
     });
 
