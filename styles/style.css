@@ -66,7 +66,7 @@ section.grid section.row
 	color:white;
 
 	scroll-behavior: smooth;
-	
+
 	z-index: 1;
 }
 section.row section.col
@@ -81,6 +81,8 @@ section.row section.col
 section.anchor
 {
 	background-color: transparent !important;
+	flex-direction: row-reverse !important;
+	align-items: flex-end;
 }
 .horz_snap
 {
@@ -191,5 +193,29 @@ a.links div.title
 .comment
 {
 	font-size: smaller;
-	color:#ffffffc7;
+	color:#ffffff50;
+}
+
+.hlt_bttn
+{
+	flex: none;
+	font-size: smaller;
+	font-family: inherit;
+	color:inherit;
+	text-align: center;
+	background-color: transparent;
+	border: none;
+	animation: animate_hltbn 1.5s linear infinite;
+} 
+   
+@keyframes animate_hltbn{
+0%{
+	opacity: 0;
+}
+50%{
+	opacity: 0.7;
+}
+100%{
+	opacity: 0;
+}
 }

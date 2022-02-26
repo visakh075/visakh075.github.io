@@ -676,3 +676,4 @@ function control_update()
 	);
 	console.log("control update <");
 }
+control_update();
