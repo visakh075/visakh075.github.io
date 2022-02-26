@@ -405,7 +405,7 @@ class world
 				// type predator < 0
 				this.birds[i].perc_rad=this.birds[i].scale*perc_per_scale;
 				this.birds[i].type=-1;
-				this.birds[i].max_vel=0.8*this.birds[i].max_vel;
+				this.birds[i].max_vel=velRatio[0]*this.birds[i].max_vel;
 				this.birds[i].max_acc=this.birds[i].max_vel*acc_per_vel;
 				this.birds[i].color=p5.color(pdColor);
 				this.birds[i].dbColor=p5.color(dpdColor);

@@ -8,8 +8,10 @@
 	box-sizing: border-box;
 	-ms-overflow-style: none;  /* IE and Edge */
 	scrollbar-width: none;  /* Firefox */
+	
 }
 *::-webkit-scrollbar {
+	
 	display: none;
 }
 .transp
@@ -36,7 +38,7 @@ body
 }
 main
 {
-
+	overflow: auto;
 }
 section.grid
 {
@@ -45,6 +47,7 @@ section.grid
 	flex-direction: column;
 	overflow-y: auto;
 	height: 100vh;
+	scroll-behavior: smooth;
 }
 section.grid section.row
 {
@@ -62,8 +65,8 @@ section.grid section.row
 	border: 0px white dashed;
 	color:white;
 
+	scroll-behavior: smooth;
 	
-
 	z-index: 1;
 }
 section.row section.col

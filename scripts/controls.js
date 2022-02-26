@@ -133,8 +133,10 @@ function main()
     );
     console.log("document ready <");
     
-    $(window).scroll(function () { 
-        console.log("Sdfsf");
+    $(document).scroll(function()
+    {
+        var k = $(this).scrollTop();
+        console.log(k);
     });
 
     $(this).keydown(function (e) { 
@@ -144,22 +146,39 @@ function main()
             right 39
             down 40 
          */
+        var vH=$("main").height();
+        var vW=$("main").width();
+        
+        var cTop=$(".grid").scrollTop();
+        var iRow=Math.floor(cTop/vH);
+        var q=".grid .row:nth-child("+(iRow+1)+")";
+        var cRow=$(q);
+        //console.log(cRow);
+        //console.log(q);
+        var cLeft=cRow.scrollLeft();
+        var iCol=cLeft/vW;
 
-
-        console.log(e.which);
-
+        console.log(iRow,iCol);
+        var dir=0;
         switch(e.which)
         {
             case 37:
-                $(".grid").scrollTop(100);    
-            //console.log($(this).find(".grid"));
-                //$(this).find("#inst").scrollIntoView();
-            break;
+                // LEFT
+                cRow.scrollLeft((iCol-1)*vW);
+                break;
+            case 39:
+                // LEFT
+                cRow.scrollLeft((iCol+1)*vW);
+                break;
 
             case 38:
-                console.log(this);
-                $(this).find("main").scrollLeft(10000);
-            break;
+                // UP
+                $(".grid").scrollTop((iRow-1)*vH);
+                break;
+            case 40:
+                // DOWN
+                $(".grid").scrollTop((iRow+1)*vH);
+                break;
             
         }
     });
@@ -180,5 +199,5 @@ function main()
 }
 function smap(i_min,i_max,o_min,o_max,value)
 {
-    return(o_min+(o_max-o_min)*value/(i_max-i_min));
+    return(o_min+(o_max-o_min)*(value-i_min)/(i_max-i_min));
 }
