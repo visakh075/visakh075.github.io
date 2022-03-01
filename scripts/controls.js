@@ -135,13 +135,13 @@ function main()
     
     $(".grid").scroll(function()
     {
-        highlight_sitemap();
+        //highlight_sitemap();
         //$(".site_map_sec").css("visibility","visible");
         //console.log("scrolling");
     });
     $(".grid .row").scroll(function()
     {
-        highlight_sitemap();
+        //highlight_sitemap();
         //$(".site_map_sec").css("visibility","visible");
         //console.log("scrolling");
     });
@@ -175,23 +175,23 @@ function main()
             case 37:
                 // LEFT
                 cRow.scrollLeft((iCol-1)*vW);
-                //highlight_sitemap();
+                highlight_sitemap();
                 break;
             case 39:
                 // LEFT
                 cRow.scrollLeft((iCol+1)*vW);
-                //highlight_sitemap();
+                highlight_sitemap();
                 break;
 
             case 38:
                 // UP
                 $(".grid").scrollTop((iRow-1)*vH);
-                //highlight_sitemap();
+                highlight_sitemap();
                 break;
             case 40:
                 // DOWN
                 $(".grid").scrollTop((iRow+1)*vH);
-                //highlight_sitemap();
+                highlight_sitemap();
                 break;
             
         }
@@ -215,12 +215,19 @@ function main()
 }
 function highlight_sitemap()
 {
-    $(".site_map_sec").css("opacity","1");//.delay(1000).css("visibility","hidden");
+    $("#site_map").css("opacity","1");//.delay(1000).css("visibility","hidden");
 
     setTimeout(function()
     {
-        $(".site_map_sec").css("opacity",".2");  
+        console.log("timeout");
+        $("#site_map").animate(
+            {
+                opacity:0.2
+            },500
+        );
+        
     },1000);
+    console.log("start");
 }
 function smap(i_min,i_max,o_min,o_max,value)
 {

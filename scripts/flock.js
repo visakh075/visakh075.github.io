@@ -39,7 +39,7 @@ function theme_update()
 	);
 
 	 bgColor=theme[0];
-	 bgColorTr=theme[0]+"aa";
+	 bgColorTr=theme[0]+"AA";
 
 	 pdColor=theme[1];
 	 dpdColor=alpha_theme[1];
