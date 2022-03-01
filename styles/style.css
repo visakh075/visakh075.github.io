@@ -216,6 +216,7 @@ section.site_map_sec
 	bottom: 0;
 	right: 0;
 	z-index: 100;
+	opacity: 0;
 }
 #site_map_div
 {
@@ -223,6 +224,7 @@ section.site_map_sec
 	width: 5vh;
 	margin: 0;
 	padding: 0;
+	
 }
 
 @keyframes animate_hltbn{

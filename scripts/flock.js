@@ -12,9 +12,9 @@ var cAlpha= "22";
 // var theme0 =["#24305E","#374785","A8D0E6","#f76c6c"];
 // var theme0 =["#24305E","A8D0E6","#f76c6c","#374785"];
 var theme1 =["#25274d","#484866","#AAABB8","#2E9CCA"];
-var theme2 =["#1A2238","#9DAAF2","#FF6A3D","#F4DB7D"];
-var theme3 =["#1D1D2C","#E40C2B","#F7F4E9","#3CBCC3"];//,"#EBA63F","#438945"];
-var themes=[theme1,theme2,theme3];
+//var theme2 =["#1A2238","#9DAAF2","#FF6A3D","#F4DB7D"];
+//var theme3 =["#1D1D2C","#E40C2B","#F7F4E9","#3CBCC3"];//,"#EBA63F","#438945"];
+var themes=[theme1];//,theme2,theme3];
 
 var bgColor;
 var bgColorTr;
@@ -26,28 +26,9 @@ var prColor;
 var dprColor;
 
 var site_map_scale=0.05;
-function theme_update()
-{
-	console.log("theme updated");
-	var theme =themes[Math.floor(Math.random()*themes.length)];
-	var alpha_theme=[];
-	theme.forEach(
-		function(item,index,array)
-		{
-			alpha_theme.push(item+cAlpha);
-		}
-	);
+var site_map_triggerd=false;
+var scroll_comment=true;
 
-	 bgColor=theme[0];
-	 bgColorTr=theme[0]+"AA";
-
-	 pdColor=theme[1];
-	 dpdColor=alpha_theme[1];
-
-	 prColor=theme.slice(2);
-	 dprColor=alpha_theme.slice(2);
-	 
-}
 theme_update();
 var velRatio=[1,1.5,1.5];
 
@@ -60,6 +41,11 @@ var g_min_vel=1;
 var g_max_vel=20;
 var g_min_sze=4;
 var g_max_sze=15;
+
+// updated in the document ready
+var map;
+var max_col;
+var max_row;
 
 
 // classes
@@ -559,7 +545,116 @@ class world
 	}
 }
 
-// setting up the flock simulation sketch
+// functions
+function control_update()
+{
+	$(".tune_bar").each(
+	function ()
+		{
+			var id=$(this).attr("id");
+			var t_w = $(this).width();
+			var type= $(this).attr("data-w");
+
+			if(type=="speed")
+			{
+				var val = flock_world_sim.pack.get_tune_type(id,"vel");
+				var w_map = smap(g_min_vel,g_max_vel,0,t_w,val);
+				$(this).find('.progress').width(w_map);
+			}
+			else if(type=="scale")
+			{
+				var val = flock_world_sim.pack.get_tune_type(id,"scale");
+				var w_map = smap(g_min_sze,g_max_sze,0,t_w,val);
+				$(this).find('.progress').width(w_map);
+			}
+		}
+	);
+}
+function get_sitemap()
+{
+	var map=[];
+	$(".grid .row").each(
+		function(index,element)
+		{
+			map.push(element.childElementCount);
+		}
+	);
+	return map;
+}
+function get_position()
+{
+	var vH=$("main").height();
+	var vW=$("main").width();
+	
+	var cTop=$(".grid").scrollTop();
+	var iRow=Math.floor(cTop/vH);
+	var q=".grid .row:nth-child("+(iRow+1)+")";
+	var cRow=$(q);
+
+	var cLeft=cRow.scrollLeft();
+	var iCol=cLeft/vW;
+	return([iRow,iCol]);
+}
+function highlight_sitemap()
+{
+    if(site_map_triggerd==false)
+    {
+        site_map_triggerd=true;
+        control_update();
+
+        $("#site_map").animate({opacity:1},500);
+
+        setTimeout(function()
+        {
+            $("#site_map").animate(
+                {
+                    opacity:0.0
+                },500,function(){site_map_triggerd=false;}
+            );
+            
+            
+        },1000);
+    }
+}
+function smap(i_min,i_max,o_min,o_max,value)
+{
+    return(o_min+(o_max-o_min)*(value-i_min)/(i_max-i_min));
+}
+function load_icons()
+{
+	var content_html="";
+	icon_list.forEach(element => {
+		content_html+="<object data='other/tools_icon/"+element[1]+"' height='80px' width='80px'></object>"
+		
+	});
+	$("#tools_sec").html(content_html);
+	return(content_html);
+};
+function theme_update()
+{
+	console.log("theme load >");
+	var theme =themes[Math.floor(Math.random()*themes.length)];
+	var alpha_theme=[];
+	theme.forEach(
+		function(item,index,array)
+		{
+			alpha_theme.push(item+cAlpha);
+		}
+	);
+
+	bgColor=theme[0];
+	bgColorTr=theme[0]+"AA";
+
+	pdColor=theme[1];
+	dpdColor=alpha_theme[1];
+
+	prColor=theme.slice(2);
+	dprColor=alpha_theme.slice(2);
+	console.log("theme load <");
+}
+
+
+// flock simulation sketch
 const s = (sketch) => {
 	
 	sketch.setup = () => {
@@ -649,97 +744,22 @@ const s = (sketch) => {
 	};
 	
 };
-let flock_world_sim = new p5(s);
+const flock_world_sim = new p5(s);
 
-function control_update()
-{
-	console.log("control update >");
-	$(".tune_bar").each(
-	function ()
-		{
-			var id=$(this).attr("id");
-			var t_w = $(this).width();
-			var type= $(this).attr("data-w");
-
-			if(type=="speed")
-			{
-				var val = flock_world_sim.pack.get_tune_type(id,"vel");
-				var w_map = smap(g_min_vel,g_max_vel,0,t_w,val);
-				$(this).find('.progress').width(w_map);
-			}
-			else if(type=="scale")
-			{
-				var val = flock_world_sim.pack.get_tune_type(id,"scale");
-				var w_map = smap(g_min_sze,g_max_sze,0,t_w,val);
-				$(this).find('.progress').width(w_map);
-			}
-		}
-	);
-	console.log("control update <");
-}
-
-function get_sitemap()
-{
-	//console.log(vH,vW);
-	var map=[];
-	var n_rows=$(".grid .row").length;
-	$(".grid .row").each(
-		function(index,element)
-		{
-			map.push(element.childElementCount);
-		}
-	);
-	return map;
-	//console.log(n_rows);
-	//console.log(map);
-}
-function get_position()
-{
-	var vH=$("main").height();
-	var vW=$("main").width();
-	
-	var cTop=$(".grid").scrollTop();
-	var iRow=Math.floor(cTop/vH);
-	var q=".grid .row:nth-child("+(iRow+1)+")";
-	var cRow=$(q);
-	//console.log(cRow);
-	//console.log(q);
-	var cLeft=cRow.scrollLeft();
-	var iCol=cLeft/vW;
-	return([iRow,iCol]);
-	//console.log(iRow,iCol);
-}
 // sitemap sketch
 const s_map = (sketch) => 
 {
 	sketch.setup = () =>
 	{
-		
 		sketch.p=sketch.createCanvas(site_map_scale*dH,site_map_scale*dH);
-
 		sketch.p.parent("site_map_div");
-		var map=get_sitemap();
-		var max_col=Math.max(...map);
-		var max_row=map.length
-		console.log(max_col,max_row);
-		sketch.frameRate(30);
-		
+		sketch.frameRate(30);		
 	}
 	sketch.draw=()=>
 	{
-		
-		
-		//sketch.p.background(0);
 		sketch.clear();
 		sketch.p.stroke(255);
-		
-		var map=get_sitemap();
-		var max_col=Math.max(...map);
-		var max_row=map.length;
-
-
-		
-		var dot_rad=sketch.height*0.2;///(Math.max(max_col,max_row));
+		var dot_rad=sketch.height*0.2;
 		var cor_pos=get_position();
 		var sx=(sketch.height-2*dot_rad)/(max_col-1);
 		var sy=(sketch.height-2*dot_rad)/(max_row-1);
@@ -749,8 +769,6 @@ const s_map = (sketch) =>
 			for(var j=0;j<map[i];j++)
 			{
 				sketch.noFill();
-				
-
 				if(j<(map[i]-1))
 				{
 					
@@ -759,7 +777,6 @@ const s_map = (sketch) =>
 						sx*(j+1),dot_rad+sy*i,
 						);
 				}
-				
 				
 				sketch.circle(dot_rad+sx*j,dot_rad+sy*i,dot_rad);
 				if(i==cor_pos[0] && j==cor_pos[1])
@@ -781,4 +798,3 @@ const s_map = (sketch) =>
 
 };
 const sitemapsketch=new p5(s_map);
-control_update();

@@ -15,43 +15,42 @@ function main()
     // control panel create in runtime
     console.log("document ready >");
     var nPrey=prColor.length;
-    var nTypes=nPrey+1;
-
+ 
     // Speed Controls
     var curr=$('.speed_control').html("<div>speeds</div>");
-    for(var i=0;i<nPrey;i++)
+    for(var i=-1;i<nPrey;i++)
     {
         var domC="";
         domC+= "<div class='tune_bar' id='"+i+"' data-w='speed'>";
-        domC+= "<div class='progress' id='"+i+"'style='background-color:"+prColor[i]+"'></div>";
+        if(i==-1)
+        {
+            domC+= "<div class='progress' id='"+i+"'style='background-color:"+pdColor+"'></div>"; 
+        }
+        else{
+            domC+= "<div class='progress' id='"+i+"'style='background-color:"+prColor[i]+"'></div>";
+        }
         domC+= "</div>"
         var curr=$('.speed_control').html();
         $('.speed_control').html(curr+domC);
     }
-        var domC="";
-        domC+= "<div class='tune_bar' id='-1' data-w='speed'>";
-        domC+= "<div class='progress' id='-1'style='background-color:"+pdColor+"'></div>";
-        domC+= "</div>"
-        var curr=$('.speed_control').html();
-        $('.speed_control').html(curr+domC);
 
     // scale controls
     var curr=$('.scale_control').html("<div>size</div>");
-    for(var i=0;i<nPrey;i++)
+    for(var i=-1;i<nPrey;i++)
     {
         var domC="";
         domC+= "<div class='tune_bar' id='"+i+"' data-w='scale'>";
-        domC+= "<div class='progress' id='"+i+"'style='background-color:"+prColor[i]+"'></div>";
+        if(i==-1)
+        {
+            domC+= "<div class='progress' id='"+i+"'style='background-color:"+pdColor+"'></div>"; 
+        }
+        else{
+            domC+= "<div class='progress' id='"+i+"'style='background-color:"+prColor[i]+"'></div>";
+        }
         domC+= "</div>"
         var curr=$('.scale_control').html();
         $('.scale_control').html(curr+domC);
     }
-        var domC="";
-        domC+= "<div class='tune_bar' id='-1' data-w='scale'>";
-        domC+= "<div class='progress' id='-1'style='background-color:"+pdColor+"'></div>";
-        domC+= "</div>"
-        var curr=$('.scale_control').html();
-        $('.scale_control').html(curr+domC);
     
     // pause cand debug
     $(".control_box li").click(
@@ -133,103 +132,56 @@ function main()
     );
     console.log("document ready <");
     
+    map=get_sitemap();
+    max_col=Math.max(...map);
+    max_row=map.length;
+
+
     $(".grid").scroll(function()
     {
-        //highlight_sitemap();
-        //$(".site_map_sec").css("visibility","visible");
-        //console.log("scrolling");
+        highlight_sitemap();
+        $("#hlt_txt").css("visibility","hidden");
     });
     $(".grid .row").scroll(function()
     {
-        //highlight_sitemap();
-        //$(".site_map_sec").css("visibility","visible");
-        //console.log("scrolling");
+        highlight_sitemap();
+        $("#hlt_txt").css("visibility","hidden");
     });
     
 
     $(this).keydown(function (e) { 
-        /*
-         *  left 37
-            up 38
-            right 39
-            down 40 
-         */
         var vH=$("main").height();
-        var vW=$("main").width();
-        
+	    var vW=$("main").width();
+	
         var cTop=$(".grid").scrollTop();
         var iRow=Math.floor(cTop/vH);
         var q=".grid .row:nth-child("+(iRow+1)+")";
         var cRow=$(q);
-        //console.log(cRow);
-        //console.log(q);
         var cLeft=cRow.scrollLeft();
         var iCol=cLeft/vW;
-
-        // console.log(iRow,iCol);
-        // var pos=get_position();
-        // var iRow=pos[0];
-        // var iCol=pos[1];        
+        
         switch(e.which)
         {
             case 37:
                 // LEFT
                 cRow.scrollLeft((iCol-1)*vW);
-                highlight_sitemap();
                 break;
             case 39:
                 // LEFT
                 cRow.scrollLeft((iCol+1)*vW);
-                highlight_sitemap();
                 break;
 
             case 38:
                 // UP
                 $(".grid").scrollTop((iRow-1)*vH);
-                highlight_sitemap();
                 break;
             case 40:
                 // DOWN
                 $(".grid").scrollTop((iRow+1)*vH);
-                highlight_sitemap();
                 break;
             
         }
-        //$(".site_map_sec").css("visibility","hidden");//.delay(1000);
-
     });
 
-    function load_icons()
-    {
-        var content_html="";
-        icon_list.forEach(element => {
-            content_html+="<object data='other/tools_icon/"+element[1]+"' height='80px' width='80px'></object>"
-            //console.log(element);
-        });
-        $("#tools_sec").html(content_html);
-        return(content_html);
-    };
     load_icons();
-    //console.log(load_icons());
-    
-}
-function highlight_sitemap()
-{
-    $("#site_map").css("opacity","1");//.delay(1000).css("visibility","hidden");
-
-    setTimeout(function()
-    {
-        console.log("timeout");
-        $("#site_map").animate(
-            {
-                opacity:0.2
-            },500
-        );
-        
-    },1000);
-    console.log("start");
-}
-function smap(i_min,i_max,o_min,o_max,value)
-{
-    return(o_min+(o_max-o_min)*(value-i_min)/(i_max-i_min));
 }

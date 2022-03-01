@@ -10,13 +10,7 @@
   <link rel="stylesheet" href="styles/cntrl_style.css">
 
   <script src="other/list_array.js"></script>
-
-  <!--
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.slim.js"></script>
-  -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  
   <script src="scripts/p5.js"></script>
 
   <title>visakh
@@ -44,14 +38,14 @@
       <!-- instructions and control -->
       <section class="row">
         <section class="col transp">
-          <section class="col_wrapper anchor"><input class="hlt_bttn" type="button" value="scroll"></input></section>
+          <section class="col_wrapper anchor"><input id="hlt_txt" class="hlt_bttn" type="button" value="scroll or use arrow keys to navigate"></input></section>
         </section>
         <section class="col" id="inst">
           <section class="col_wrapper">
-          <p>instruction
+          <p>lets tweak somethings
           <ul class="control_box">
-            <li class ="pause_control" id="p_bttn">p pause</li>
-            <li class ="debug_control" id="d_bttn">d debug circle</li>
+            <li class ="pause_control" id="p_bttn">freeze !! (pause p)</li>
+            <li class ="debug_control" id="d_bttn">how do they think ? (decision circle d)</li>
             <li class ="speed_control"></li>
             <li class ="scale_control"></li>
           </ul>
@@ -108,12 +102,18 @@
 
         <section class="col">
         <section class="col_wrapper">
-        <p>Visakh</p>
+        <p>Some more stuffs</p>
         </section>
         </section>
-
-
       </section>
+
+      <!--
+      <section class="row">
+        <section class="col">
+          testing dynamics
+        </section>
+      </section>
+      -->
     </section>
   </main>
 </body>
