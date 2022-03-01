@@ -25,6 +25,7 @@ var dpdColor;
 var prColor;
 var dprColor;
 
+var site_map_scale=0.05;
 function theme_update()
 {
 	console.log("theme updated");
@@ -676,4 +677,108 @@ function control_update()
 	);
 	console.log("control update <");
 }
+
+function get_sitemap()
+{
+	//console.log(vH,vW);
+	var map=[];
+	var n_rows=$(".grid .row").length;
+	$(".grid .row").each(
+		function(index,element)
+		{
+			map.push(element.childElementCount);
+		}
+	);
+	return map;
+	//console.log(n_rows);
+	//console.log(map);
+}
+function get_position()
+{
+	var vH=$("main").height();
+	var vW=$("main").width();
+	
+	var cTop=$(".grid").scrollTop();
+	var iRow=Math.floor(cTop/vH);
+	var q=".grid .row:nth-child("+(iRow+1)+")";
+	var cRow=$(q);
+	//console.log(cRow);
+	//console.log(q);
+	var cLeft=cRow.scrollLeft();
+	var iCol=cLeft/vW;
+	return([iRow,iCol]);
+	//console.log(iRow,iCol);
+}
+// sitemap sketch
+const s_map = (sketch) => 
+{
+	sketch.setup = () =>
+	{
+		
+		sketch.p=sketch.createCanvas(site_map_scale*dH,site_map_scale*dH);
+
+		sketch.p.parent("site_map_div");
+		var map=get_sitemap();
+		var max_col=Math.max(...map);
+		var max_row=map.length
+		console.log(max_col,max_row);
+		sketch.frameRate(30);
+		
+	}
+	sketch.draw=()=>
+	{
+		
+		
+		//sketch.p.background(0);
+		sketch.clear();
+		sketch.p.stroke(255);
+		
+		var map=get_sitemap();
+		var max_col=Math.max(...map);
+		var max_row=map.length;
+
+
+		
+		var dot_rad=sketch.height*0.2;///(Math.max(max_col,max_row));
+		var cor_pos=get_position();
+		var sx=(sketch.height-2*dot_rad)/(max_col-1);
+		var sy=(sketch.height-2*dot_rad)/(max_row-1);
+		sketch.stroke("#ffffff");
+		for(var i=0;i<max_row;i++)
+		{
+			for(var j=0;j<map[i];j++)
+			{
+				sketch.noFill();
+				
+
+				if(j<(map[i]-1))
+				{
+					
+					sketch.line(
+						(2*dot_rad)+sx*j,dot_rad+sy*i,
+						sx*(j+1),dot_rad+sy*i,
+						);
+				}
+				
+				
+				sketch.circle(dot_rad+sx*j,dot_rad+sy*i,dot_rad);
+				if(i==cor_pos[0] && j==cor_pos[1])
+				{
+					sketch.fill("#ffffff");
+					sketch.circle(dot_rad+sx*j,dot_rad+sy*i,dot_rad);		
+				}
+			}
+			if(i<(max_row-1))
+			{
+				sketch.line(
+				(dot_rad),2*dot_rad+sy*i,
+				(dot_rad),sy*(i+1),
+				);	
+			}
+		}
+
+	}
+
+};
+const sitemapsketch=new p5(s_map);
 control_update();

@@ -133,11 +133,19 @@ function main()
     );
     console.log("document ready <");
     
-    $(document).scroll(function()
+    $(".grid").scroll(function()
     {
-        var k = $(this).scrollTop();
-        console.log(k);
+        highlight_sitemap();
+        //$(".site_map_sec").css("visibility","visible");
+        //console.log("scrolling");
     });
+    $(".grid .row").scroll(function()
+    {
+        highlight_sitemap();
+        //$(".site_map_sec").css("visibility","visible");
+        //console.log("scrolling");
+    });
+    
 
     $(this).keydown(function (e) { 
         /*
@@ -158,29 +166,37 @@ function main()
         var cLeft=cRow.scrollLeft();
         var iCol=cLeft/vW;
 
-        console.log(iRow,iCol);
-        var dir=0;
+        // console.log(iRow,iCol);
+        // var pos=get_position();
+        // var iRow=pos[0];
+        // var iCol=pos[1];        
         switch(e.which)
         {
             case 37:
                 // LEFT
                 cRow.scrollLeft((iCol-1)*vW);
+                //highlight_sitemap();
                 break;
             case 39:
                 // LEFT
                 cRow.scrollLeft((iCol+1)*vW);
+                //highlight_sitemap();
                 break;
 
             case 38:
                 // UP
                 $(".grid").scrollTop((iRow-1)*vH);
+                //highlight_sitemap();
                 break;
             case 40:
                 // DOWN
                 $(".grid").scrollTop((iRow+1)*vH);
+                //highlight_sitemap();
                 break;
             
         }
+        //$(".site_map_sec").css("visibility","hidden");//.delay(1000);
+
     });
 
     function load_icons()
@@ -196,6 +212,15 @@ function main()
     load_icons();
     //console.log(load_icons());
     
+}
+function highlight_sitemap()
+{
+    $(".site_map_sec").css("opacity","1");//.delay(1000).css("visibility","hidden");
+
+    setTimeout(function()
+    {
+        $(".site_map_sec").css("opacity",".2");  
+    },1000);
 }
 function smap(i_min,i_max,o_min,o_max,value)
 {

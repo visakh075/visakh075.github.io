@@ -178,8 +178,8 @@ a.links div.title
 }
 #tools_sec
 {
-	flex-wrap:wrap;
-	justify-content: space-around;
+	flex-wrap:nowrap;
+	justify-content: space-evenly;
 	
 	width: 100%;
 }
@@ -207,7 +207,24 @@ a.links div.title
 	border: none;
 	animation: animate_hltbn 1.5s linear infinite;
 } 
-   
+
+section.site_map_sec
+{
+	margin: 0;
+	padding: 0;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 100;
+}
+#site_map_div
+{
+	height:5vh;
+	width: 5vh;
+	margin: 0;
+	padding: 0;
+}
+
 @keyframes animate_hltbn{
 0%{
 	opacity: 0;
