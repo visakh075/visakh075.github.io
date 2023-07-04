@@ -2,7 +2,7 @@ var run=true;
 var wWidth = document.getElementById('gol').offsetWidth;
 var wHeight=  document.getElementById('gol').offsetHeight;
 var wScale=5;
-var pack=new world(wWidth,wHeight,250,5);
+var pack=new world(wWidth,wHeight,100,5);
 
 function setup() {
   // put setup code here
